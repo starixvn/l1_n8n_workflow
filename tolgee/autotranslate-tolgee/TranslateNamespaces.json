@@ -110,7 +110,7 @@
     },
     {
       "parameters": {
-        "url": "=https://tolgee.sabagame.com/v2/projects/{{$('FilterNamespace').item.json.project}}/translations",
+        "url": "=https://tolgee.sabagame.com/v2/projects/{{$('Trigger').item.json.project}}/translations",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "sendQuery": true,
@@ -126,7 +126,7 @@
             },
             {
               "name": "filterNamespace",
-              "value": "={{ [$('FilterNamespace').item.json.name] }}"
+              "value": "={{ [$('Trigger').item.json.name] }}"
             }
           ]
         },
@@ -647,7 +647,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "87e3fc7b-829b-4cf1-b728-8a2228a7b555",
+  "versionId": "14c66b32-b09f-456b-91f6-d388cb194a26",
   "meta": {
     "instanceId": "98bfed1c0f22fa9e07d0e38dc58da94b0281d63095bd4ba14894d42a90a063e3"
   },
