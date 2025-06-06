@@ -1,0 +1,140 @@
+{
+  "name": "TranslateAllProjects",
+  "nodes": [
+    {
+      "parameters": {
+        "rule": {
+          "interval": [
+            {
+              "field": "hours"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.scheduleTrigger",
+      "typeVersion": 1.2,
+      "position": [
+        180,
+        180
+      ],
+      "id": "1e32ccb3-e629-4bfa-a470-f4001ae436c0",
+      "name": "Schedule Trigger"
+    },
+    {
+      "parameters": {
+        "jsCode": "const projects = [{\n  project: 7,\n  languageBase: \"en\"\n}, {\n  project: 6,\n  languageBase: \"en-US\"\n},                {\n  project: 5,\n  languageBase: \"en\"\n}, {\n  project: 2,\n  languageBase: \"en\"\n},{\n  project: 8,\n  languageBase: \"en\"\n}]\n\nreturn projects;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        340,
+        180
+      ],
+      "id": "9e8ef529-7a02-421b-a214-c57faf409a36",
+      "name": "DefineProjects"
+    },
+    {
+      "parameters": {
+        "workflowId": {
+          "__rl": true,
+          "value": "PunAIJM9gwybpZil",
+          "mode": "list",
+          "cachedResultName": "TranslateProject"
+        },
+        "workflowInputs": {
+          "mappingMode": "defineBelow",
+          "value": {
+            "project": "={{ $json.project }}",
+            "languageBase": "={{ $json.languageBase }}"
+          },
+          "matchingColumns": [],
+          "schema": [
+            {
+              "id": "project",
+              "displayName": "project",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "number"
+            },
+            {
+              "id": "languageBase",
+              "displayName": "languageBase",
+              "required": false,
+              "defaultMatch": false,
+              "display": true,
+              "canBeUsedToMatch": true,
+              "type": "string"
+            }
+          ],
+          "attemptToConvertTypes": false,
+          "convertFieldsToString": true
+        },
+        "mode": "each",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.executeWorkflow",
+      "typeVersion": 1.2,
+      "position": [
+        520,
+        180
+      ],
+      "id": "64fcd63a-39c2-44ad-9eaa-a33f668ebbc4",
+      "name": "Execute Workflow"
+    }
+  ],
+  "pinData": {
+    "Schedule Trigger": [
+      {
+        "json": {
+          "timestamp": "2025-05-16T17:44:52.011+07:00",
+          "Readable date": "May 16th 2025, 5:44:52 pm",
+          "Readable time": "5:44:52 pm",
+          "Day of week": "Friday",
+          "Year": "2025",
+          "Month": "May",
+          "Day of month": "16",
+          "Hour": "17",
+          "Minute": "44",
+          "Second": "52",
+          "Timezone": "Asia/Ho_Chi_Minh (UTC+07:00)"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "Schedule Trigger": {
+      "main": [
+        [
+          {
+            "node": "DefineProjects",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "DefineProjects": {
+      "main": [
+        [
+          {
+            "node": "Execute Workflow",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "6e881a49-ca3f-4cab-ae1e-830a6a34bbc1",
+  "meta": {
+    "instanceId": "98bfed1c0f22fa9e07d0e38dc58da94b0281d63095bd4ba14894d42a90a063e3"
+  },
+  "id": "TrvHWWOjuRSKmAWJ",
+  "tags": []
+}
