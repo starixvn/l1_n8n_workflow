@@ -423,11 +423,11 @@
       "parameters": {
         "content": "## Standardize Data",
         "height": 500,
-        "width": 960
+        "width": 1240
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        1560,
+        1480,
         520
       ],
       "typeVersion": 1,
@@ -437,7 +437,7 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "if (!$json.translations[$json.languageBase]?.text) {\n  return {\n    value: $json.keyName,\n    missing: []\n  }\n}\nconst item = {\n  value: $json.translations[$json.languageBase]?.text ?? $json.keyName,\n  keyName: $json.keyName,\n  keyNamespace: $json.keyNamespace,\n  project: $json.project,\n  missing: []\n}\nfor (const lang of $json.lang) {\n  if ($json.translations[lang.tag] &&  $json.translations[lang.tag].state === \"TRANSLATED\") {\n    item.missing.push(lang)\n  } \n}\n\nreturn item;"
+        "jsCode": "if (!$json.translations[$json.languageBase]?.text) {\n  return {\n    project: $json.project,\n    ns: $json.keyNamespace,\n    value: $json.keyName,\n    missing: []\n  }\n}\nconst item = {\n  value: $json.translations[$json.languageBase]?.text ?? $json.keyName,\n  keyName: $json.keyName,\n  keyNamespace: $json.keyNamespace,\n  project: $json.project,\n  missing: []\n}\nfor (const lang of $json.lang) {\n  if ($json.translations[lang.tag] &&  $json.translations[lang.tag].state === \"TRANSLATED\") {\n    item.missing.push(lang)\n  } \n}\n\nreturn item;"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -450,26 +450,12 @@
     },
     {
       "parameters": {
-        "mode": "runOnceForEachItem",
-        "jsCode": "const url = `https://tolgee.sabagame.com/projects/7/translations?filters={\"filterNamespace\":[\"${$json.keyNamespace}\"]}&search=${$json.keyName}`\n\nconst project = {\n  \"2\": \"Game Guides\",\n  \"5\": \"Game Client\",\n  \"6\": \"Game Round Result\",\n  \"7\": \"[Test] - Auto Translate\",\n  \"8\": \"Game Promotion\"\n}\n\nreturn {\n  namespace: $json.keyNamespace,\n  project: project[$json.project],\n  url: encodeURI(url)\n};"
-      },
-      "type": "n8n-nodes-base.code",
-      "typeVersion": 2,
-      "position": [
-        1820,
-        720
-      ],
-      "id": "ba48297d-7270-4367-868b-ce892dcf3357",
-      "name": "Code"
-    },
-    {
-      "parameters": {
         "options": {}
       },
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        2040,
+        2260,
         720
       ],
       "id": "786c5d35-5eea-41e3-bfe2-1e0e0a850ed7",
@@ -486,7 +472,7 @@
       "type": "n8n-nodes-base.slack",
       "typeVersion": 2.3,
       "position": [
-        2260,
+        2480,
         720
       ],
       "id": "02972711-bf8d-4b80-8640-74ba1a637cc2",
@@ -498,6 +484,53 @@
           "name": "Slack account 2"
         }
       }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "23637d1e-291c-46cf-bfa7-863a0174a67b",
+              "leftValue": "={{ $json.keyNamespace }}",
+              "rightValue": "undefined",
+              "operator": {
+                "type": "string",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1780,
+        740
+      ],
+      "id": "967efb8b-ef34-4c03-a151-57fd8ba2ce51",
+      "name": "If"
+    },
+    {
+      "parameters": {
+        "jsCode": "const items = $input.all().map(x=>x.json);\nconst project = {\n  \"2\": \"Game Guides\",\n  \"5\": \"Game Client\",\n  \"6\": \"Game Round Result\",\n  \"7\": \"[Test] - Auto Translate\",\n  \"8\": \"Game Promotion\"\n}\nconst groupByProj = {}\nfor (const item of items) {\n  const projectId = item.project\n  const ns = item.keyNamespace\n  const key = `${projectId}_${ns}`\n  if (!groupByProj[key]) {\n    groupByProj[key] = {\n      ns: ns,\n      proj: project[projectId],\n      url: `https://tolgee.sabagame.com/projects/${projectId}/translations?filters={\"filterNamespace\":[\"${ns}\"]}`,\n      keys: []\n    }\n  }\n  groupByProj[key].keys.push(item.keyName)\n}\nconst output = Object.keys(groupByProj).map(x => ({\n  namespace: groupByProj[x].ns,\n  project: groupByProj[x].proj,\n  url: encodeURI(groupByProj[x].url),\n  numberOfWords: groupByProj[x].keys.length,\n  keys: groupByProj[x].keys.join(\",\")\n}))\n\n\n\nreturn output;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2040,
+        720
+      ],
+      "id": "ba48297d-7270-4367-868b-ce892dcf3357",
+      "name": "GroupByProject"
     }
   ],
   "pinData": {
@@ -730,18 +763,7 @@
       "main": [
         [
           {
-            "node": "Code",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Code": {
-      "main": [
-        [
-          {
-            "node": "Convert to File",
+            "node": "If",
             "type": "main",
             "index": 0
           }
@@ -758,13 +780,36 @@
           }
         ]
       ]
+    },
+    "If": {
+      "main": [
+        [],
+        [
+          {
+            "node": "GroupByProject",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "GroupByProject": {
+      "main": [
+        [
+          {
+            "node": "Convert to File",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "47fc1a29-90a2-49bb-b034-6e0e4a42b39d",
+  "versionId": "2a942750-e8c6-494c-acdd-40412f718674",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "98bfed1c0f22fa9e07d0e38dc58da94b0281d63095bd4ba14894d42a90a063e3"
