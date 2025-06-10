@@ -14,10 +14,10 @@
       "type": "n8n-nodes-base.scheduleTrigger",
       "typeVersion": 1.2,
       "position": [
-        180,
-        180
+        -20,
+        -60
       ],
-      "id": "1e32ccb3-e629-4bfa-a470-f4001ae436c0",
+      "id": "6ae202de-21ac-49c8-900f-9d9decde6797",
       "name": "Schedule Trigger"
     },
     {
@@ -27,17 +27,17 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        340,
-        180
+        160,
+        0
       ],
-      "id": "9e8ef529-7a02-421b-a214-c57faf409a36",
+      "id": "c7603ea7-e40d-433c-8b5f-4c092b7de24f",
       "name": "DefineProjects"
     },
     {
       "parameters": {
         "workflowId": {
           "__rl": true,
-          "value": "PunAIJM9gwybpZil",
+          "value": "yMctYSkK0i5aSAms",
           "mode": "list",
           "cachedResultName": "TranslateProject"
         },
@@ -77,11 +77,22 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        520,
+        340,
+        0
+      ],
+      "id": "0abbab69-2f50-4a28-87a8-1038f3e98794",
+      "name": "Execute Workflow"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.errorTrigger",
+      "typeVersion": 1,
+      "position": [
+        0,
         180
       ],
-      "id": "64fcd63a-39c2-44ad-9eaa-a33f668ebbc4",
-      "name": "Execute Workflow"
+      "id": "3e04d201-9346-4e7a-b05b-0067f33808b0",
+      "name": "Error Trigger"
     }
   ],
   "pinData": {
@@ -125,16 +136,31 @@
           }
         ]
       ]
+    },
+    "Error Trigger": {
+      "main": [
+        [
+          {
+            "node": "DefineProjects",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
-  "active": false,
+  "active": true,
   "settings": {
-    "executionOrder": "v1"
+    "executionOrder": "v1",
+    "timezone": "Asia/Ho_Chi_Minh",
+    "callerPolicy": "workflowsFromSameOwner",
+    "executionTimeout": -1,
+    "errorWorkflow": "K1zoqI8KmtFsIdqA"
   },
-  "versionId": "6e881a49-ca3f-4cab-ae1e-830a6a34bbc1",
+  "versionId": "23fba2bf-2dbd-45c0-8e55-8492ddbd8ae5",
   "meta": {
     "instanceId": "98bfed1c0f22fa9e07d0e38dc58da94b0281d63095bd4ba14894d42a90a063e3"
   },
-  "id": "TrvHWWOjuRSKmAWJ",
+  "id": "K1zoqI8KmtFsIdqA",
   "tags": []
 }
