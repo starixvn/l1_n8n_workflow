@@ -1,0 +1,99 @@
+{
+  "name": "CrawlWebsite",
+  "nodes": [
+    {
+      "parameters": {
+        "workflowInputs": {
+          "values": [
+            {
+              "name": "url"
+            }
+          ]
+        }
+      },
+      "type": "n8n-nodes-base.executeWorkflowTrigger",
+      "typeVersion": 1.1,
+      "position": [
+        -260,
+        -280
+      ],
+      "id": "b07aece9-e806-4095-821b-0387c882c607",
+      "name": "TriggerNode"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://n8n-crawl4ai.lumigame.com/crawl",
+        "sendBody": true,
+        "specifyBody": "json",
+        "jsonBody": "={\n  \"urls\": [\n    \"{{$json.url}}\"\n  ],\n  \"crawler_config\": {\n    \"type\": \"CrawlerRunConfig\",\n    \"params\": {\n      \"only_text\": true,\n      \"scraping_strategy\": {\n        \"type\": \"WebScrapingStrategy\",\n        \"params\": {}\n      },\n      \"exclude_social_media_domains\": [\n        \"facebook.com\",\n        \"twitter.com\",\n        \"x.com\",\n        \"linkedin.com\",\n        \"instagram.com\",\n        \"pinterest.com\",\n        \"tiktok.com\",\n        \"snapchat.com\",\n        \"reddit.com\"\n      ]\n    }\n  }\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -40,
+        -280
+      ],
+      "id": "af3e82f1-1e5a-4636-8e55-3e1eeb163958",
+      "name": "HTTP Request"
+    },
+    {
+      "parameters": {
+        "mode": "runOnceForEachItem",
+        "jsCode": "const images = []\nfor (const item of $json.results[0].media.images){\n  let src = item.src\n  if (item.src.startsWith(\"/\")) {\n    \n  const origin = $(\"TriggerNode\").item.json.url.split(\"/\").slice(0, 3).join(\"/\");\n\n    src = `${origin}${item.src}`\n  }\n  images.push({\n    alt: item.alt,\n    src\n  })\n}\nreturn {\n  content: $json.results[0].markdown.raw_markdown,\n  images\n};"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        180,
+        -280
+      ],
+      "id": "28bbeb5a-6b54-43b8-b2de-b722a2871a4c",
+      "name": "Code"
+    }
+  ],
+  "pinData": {
+    "TriggerNode": [
+      {
+        "json": {
+          "url": "https://www.aboutslots.com/casino-slots/chaos-crew-2"
+        }
+      }
+    ]
+  },
+  "connections": {
+    "TriggerNode": {
+      "main": [
+        [
+          {
+            "node": "HTTP Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "HTTP Request": {
+      "main": [
+        [
+          {
+            "node": "Code",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "96a1c0e4-4237-4c2d-9926-bb5f8f079bb9",
+  "meta": {
+    "instanceId": "98bfed1c0f22fa9e07d0e38dc58da94b0281d63095bd4ba14894d42a90a063e3"
+  },
+  "id": "Z98kSDtYNiNlFI0h",
+  "tags": []
+}
