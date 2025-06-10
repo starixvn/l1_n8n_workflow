@@ -3,50 +3,16 @@
   "nodes": [
     {
       "parameters": {
-        "modelId": {
-          "__rl": true,
-          "value": "gemma-3-4b-it-Q4_0.gguf",
-          "mode": "list",
-          "cachedResultName": "GEMMA-3-4B-IT-Q4_0.GGUF"
-        },
-        "messages": {
-          "values": [
-            {
-              "content": "=You are a translator. Translate the given English word in field \"source\" into the specified language define in field \"translateTo\" and fill in the 'translateResult'.{{ $('TriggerNode').item.json.context!= null ?` Source can relevent to \"${$('TriggerNode').item.json.context}\"`:\"\" }} Input: {{ JSON.stringify($json) }}",
-              "role": "assistant"
-            }
-          ]
-        },
-        "jsonOutput": true,
-        "options": {}
-      },
-      "type": "@n8n/n8n-nodes-langchain.openAi",
-      "typeVersion": 1.8,
-      "position": [
-        -980,
-        180
-      ],
-      "id": "4136ff2b-632c-48fd-a234-ad24ce786487",
-      "name": "OpenAI4",
-      "credentials": {
-        "openAiApi": {
-          "id": "S8edf7KSdwJbL2rJ",
-          "name": "Gemma3 110 14449"
-        }
-      }
-    },
-    {
-      "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "delete $json.keyName\ndelete $json.keyNamespace\ndelete $json.languageTag\ndelete $json.project\ndelete $json.context\n\nreturn {\n  ...$json,\n  translateResult: \"\"\n};"
+        "jsCode": "delete $json.keyName\ndelete $json.keyNamespace\ndelete $json.languageTag\ndelete $json.project\ndelete $json.context\n// if (!$json.context || $json.context.length === 0) {\n//   delete $json.context\n// }\n\nreturn {\n  ...$json,\n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -1160,
-        180
+        -1040,
+        80
       ],
-      "id": "8e6d83b8-1a45-422e-8b8c-a6eba551a23c",
+      "id": "8731bf59-7f43-4056-8312-80e357322201",
       "name": "ModifyField"
     },
     {
@@ -81,24 +47,24 @@
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "typeVersion": 1.1,
       "position": [
-        -1560,
-        180
+        -1400,
+        80
       ],
-      "id": "3ec83294-9707-4717-8a11-315bab8873ab",
+      "id": "54d2a4f1-c5e7-4fea-9a65-b022810f5b0d",
       "name": "TriggerNode"
     },
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const translateResult = $json?.message?.content?.translateResult ?? \"\"\nreturn {\n  key: $('TriggerNode').item.json.keyName,\n  namespace: $('TriggerNode').item.json.keyNamespace,\n  translations: {\n    [$('TriggerNode').item.json.languageTag]: translateResult\n  }\n};"
+        "jsCode": "const translateResult = $json?.output ?? \"\"\nreturn {\n  key: $('TriggerNode').item.json.keyName,\n  namespace: $('TriggerNode').item.json.keyNamespace,\n  translations: {\n    [$('TriggerNode').item.json.languageTag]: translateResult\n  }\n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        -660,
-        180
+        -440,
+        80
       ],
-      "id": "a6ed191e-3fa7-4d79-9fb9-6b3ea7a77bb6",
+      "id": "9311d9c9-cd81-4c49-a1d2-2e6546046196",
       "name": "Output"
     },
     {
@@ -129,18 +95,14 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -220,
-        260
+        0,
+        200
       ],
-      "id": "3e332971-24e7-4a4f-9ec9-501309dde452",
+      "id": "794db80a-4e58-4c89-8f27-85add27d1e72",
       "name": "CreateKey",
       "credentials": {
-        "httpBearerAuth": {
-          "id": "VWtLpVxouEBsq6hZ",
-          "name": "tolgee"
-        },
         "httpHeaderAuth": {
-          "id": "38GHDtQkTfqjRDxD",
+          "id": "9bIOdqQPZKY66JXg",
           "name": "Tolgee n8n agent"
         }
       }
@@ -173,10 +135,10 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        -460,
-        180
+        -240,
+        80
       ],
-      "id": "fd0a6942-64f4-4ec9-a581-c46a8a396688",
+      "id": "ba3d0d23-5152-45af-b1e5-f5d87a8f8e62",
       "name": "If"
     },
     {
@@ -207,19 +169,19 @@
       "type": "n8n-nodes-base.filter",
       "typeVersion": 2.2,
       "position": [
-        -1360,
-        180
+        -1220,
+        80
       ],
-      "id": "eec5ad2e-9aec-4882-904c-df0f22e21911",
+      "id": "55e78839-c7a9-406c-a4ae-0cc83020b501",
       "name": "Filter"
     },
     {
       "parameters": {
         "workflowId": {
           "__rl": true,
-          "value": "mtwIBKDqHXr6Wpi1",
+          "value": "LuSc7dLQICj4HjiD",
           "mode": "list",
-          "cachedResultName": "TranslateToTolgee"
+          "cachedResultName": "TranslateKeyTolgee"
         },
         "workflowInputs": {
           "mappingMode": "defineBelow",
@@ -295,8 +257,7 @@
               "defaultMatch": false,
               "display": true,
               "canBeUsedToMatch": true,
-              "type": "string",
-              "removed": false
+              "type": "string"
             }
           ],
           "attemptToConvertTypes": false,
@@ -308,67 +269,90 @@
       "type": "n8n-nodes-base.executeWorkflow",
       "typeVersion": 1.2,
       "position": [
-        -220,
-        100
+        0,
+        0
       ],
-      "id": "24612c03-9a35-4120-ab6f-dd0600fcd0e4",
+      "id": "d781b0a9-dc38-4e9d-bd78-598d76933d3c",
       "name": "Execute Workflow"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{JSON.stringify($json)}}",
+        "hasOutputParser": true,
+        "options": {
+          "systemMessage": "I want you to act as a professional betting game localizer who can accurately translate English text into any target language specified by the user. The content should be in json format (not you markdown).\nExample: \nUser: { \"source\": \"Hello\", \"translateTo\": \"Vietnamese\" }\nAI: { output: \"Xin chào\"}"
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 1.9,
+      "position": [
+        -800,
+        80
+      ],
+      "id": "e00fd038-477d-4e92-9a32-1b5aa9cc847d",
+      "name": "AI Agent"
+    },
+    {
+      "parameters": {
+        "jsonSchemaExample": "{\n\t\"output\": \"Xin chào\"\n}"
+      },
+      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
+      "typeVersion": 1.2,
+      "position": [
+        -580,
+        320
+      ],
+      "id": "7a0cbf1a-1899-4953-a048-2bcb3ed7ae51",
+      "name": "Structured Output Parser"
+    },
+    {
+      "parameters": {
+        "model": {
+          "__rl": true,
+          "value": "gemma-3-4b-it-Q4_0.gguf",
+          "mode": "list",
+          "cachedResultName": "gemma-3-4b-it-Q4_0.gguf"
+        },
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
+      "typeVersion": 1.2,
+      "position": [
+        -840,
+        320
+      ],
+      "id": "fb49f893-789f-407d-9b69-df97281925b3",
+      "name": "OpenAI Chat Model",
+      "credentials": {
+        "openAiApi": {
+          "id": "YeNQxUhCy4BLXkJa",
+          "name": "110 11449 Gemma3"
+        }
+      }
     }
   ],
   "pinData": {
     "TriggerNode": [
       {
         "json": {
-          "keyName": "auto_start",
-          "keyNamespace": "CoinMining",
-          "source": "Auto Start",
-          "translateTo": "Simplified Chinese",
-          "languageTag": "zh-Hans",
-          "project": 7,
-          "context": null
-        }
-      },
-      {
-        "json": {
-          "keyName": "auto_start",
-          "keyNamespace": "CoinMining",
-          "source": "Auto Start",
-          "translateTo": "Simplified Chinese (China)",
-          "languageTag": "zh-Hans-CN",
-          "project": 7,
-          "context": null
-        }
-      },
-      {
-        "json": {
-          "keyName": "cash_out",
-          "keyNamespace": "CoinMining",
-          "source": "Cash Out",
-          "translateTo": "Vietnamese (Vietnam)",
-          "languageTag": "vi-VN",
-          "project": 7,
-          "context": null
+          "keyName": "game_name",
+          "keyNamespace": "RNGSoccer",
+          "source": "RNG Soccer",
+          "translateTo": "Filipino (Philippines)",
+          "languageTag": "fil-PH",
+          "project": 6,
+          "context": "A game"
         }
       }
     ]
   },
   "connections": {
-    "OpenAI4": {
-      "main": [
-        [
-          {
-            "node": "Output",
-            "type": "main",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "ModifyField": {
       "main": [
         [
           {
-            "node": "OpenAI4",
+            "node": "AI Agent",
             "type": "main",
             "index": 0
           }
@@ -425,17 +409,51 @@
           }
         ]
       ]
+    },
+    "Structured Output Parser": {
+      "ai_outputParser": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_outputParser",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "OpenAI Chat Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "AI Agent",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "AI Agent": {
+      "main": [
+        [
+          {
+            "node": "Output",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": false,
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "a35a3941-4c2a-4f81-8442-b6eb868becfe",
+  "versionId": "2e80531a-a7b9-42b5-a334-1576978a49d8",
   "meta": {
+    "templateCredsSetupCompleted": true,
     "instanceId": "98bfed1c0f22fa9e07d0e38dc58da94b0281d63095bd4ba14894d42a90a063e3"
   },
-  "id": "mtwIBKDqHXr6Wpi1",
+  "id": "LuSc7dLQICj4HjiD",
   "tags": [
     {
       "createdAt": "2025-06-04T08:21:12.715Z",
