@@ -56,7 +56,7 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const translateResult = $json?.output ?? \"\"\nreturn {\n  key: $('TriggerNode').item.json.keyName,\n  namespace: $('TriggerNode').item.json.keyNamespace,\n  translations: {\n    [$('TriggerNode').item.json.languageTag]: translateResult\n  }\n};"
+        "jsCode": "const result = JSON.parse($json?.output ?? \"{}\")\nconst translateResult = result?.output ?? \"\"\nreturn {\n  key: $('TriggerNode').item.json.keyName,\n  namespace: $('TriggerNode').item.json.keyNamespace,\n  translations: {\n    [$('TriggerNode').item.json.languageTag]: translateResult\n  }\n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -279,7 +279,6 @@
       "parameters": {
         "promptType": "define",
         "text": "={{JSON.stringify($json)}}",
-        "hasOutputParser": true,
         "options": {
           "systemMessage": "I want you to act as a professional betting game localizer who can accurately translate English text into any target language specified by the user. The content should be in json format (not you markdown).\nExample: \nUser: { \"source\": \"Hello\", \"translateTo\": \"Vietnamese\" }\nSystem: { output: \"Xin chào\"}"
         }
@@ -292,19 +291,6 @@
       ],
       "id": "e00fd038-477d-4e92-9a32-1b5aa9cc847d",
       "name": "AI Agent"
-    },
-    {
-      "parameters": {
-        "jsonSchemaExample": "{\n\t\"output\": \"Xin chào\"\n}"
-      },
-      "type": "@n8n/n8n-nodes-langchain.outputParserStructured",
-      "typeVersion": 1.2,
-      "position": [
-        -580,
-        320
-      ],
-      "id": "7a0cbf1a-1899-4953-a048-2bcb3ed7ae51",
-      "name": "Structured Output Parser"
     },
     {
       "parameters": {
@@ -336,11 +322,11 @@
     "TriggerNode": [
       {
         "json": {
-          "keyName": "FSB_template_announcement_title",
+          "keyName": "FSB_template_banner_content",
           "keyNamespace": "FreeSpinBonus",
-          "source": "Free Spin Bonus Promotion",
-          "translateTo": "Vietnamese",
-          "languageTag": "vi",
+          "source": "Unlock Exciting Rewards in Our New Free Spin Event\nJoin Now and Seize Your Chance To Win Big Before It’s Gone!",
+          "translateTo": "Filipino (Philippines)",
+          "languageTag": "fil-PH",
           "project": 8,
           "context": "A game"
         }
@@ -410,17 +396,6 @@
         ]
       ]
     },
-    "Structured Output Parser": {
-      "ai_outputParser": [
-        [
-          {
-            "node": "AI Agent",
-            "type": "ai_outputParser",
-            "index": 0
-          }
-        ]
-      ]
-    },
     "OpenAI Chat Model": {
       "ai_languageModel": [
         [
@@ -448,7 +423,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "61b25161-e16e-4e68-a89d-3f524b271df3",
+  "versionId": "0d1d30ed-aba1-4ad2-b797-34ec9b271ca5",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "98bfed1c0f22fa9e07d0e38dc58da94b0281d63095bd4ba14894d42a90a063e3"
