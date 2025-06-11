@@ -22,7 +22,7 @@
     },
     {
       "parameters": {
-        "url": "=https://tolgee.sabagame.com/v2/projects/{{ $('FilterNamespace').item.json.project }}/languages?size=500",
+        "url": "=https://tolgee.sabagame.com/v2/projects/{{ $('Each').item.json.project }}/languages?size=500",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "sendQuery": true,
@@ -39,8 +39,8 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        20,
-        300
+        100,
+        220
       ],
       "id": "89aca0e8-d3ac-43d0-a164-19cb6212c2d2",
       "name": "GetLanguages",
@@ -86,7 +86,7 @@
     },
     {
       "parameters": {
-        "url": "=https://tolgee.sabagame.com/v2/projects/{{ $('FilterNamespace').item.json.project }}/translations?{{ $json.queryLang }}",
+        "url": "=https://tolgee.sabagame.com/v2/projects/{{ $('Each').item.json.project }}/translations?{{ $json.queryLang }}",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "sendQuery": true,
@@ -121,7 +121,7 @@
     },
     {
       "parameters": {
-        "url": "=https://tolgee.sabagame.com/v2/projects/{{$('FilterNamespace').item.json.project}}/translations",
+        "url": "=https://tolgee.sabagame.com/v2/projects/{{$('Each').item.json.project}}/translations",
         "authentication": "genericCredentialType",
         "genericAuthType": "httpHeaderAuth",
         "sendQuery": true,
@@ -167,8 +167,8 @@
       "type": "n8n-nodes-base.merge",
       "typeVersion": 3.1,
       "position": [
-        1180,
-        140
+        1380,
+        180
       ],
       "id": "94a3b269-9148-4ac7-9859-bb055528810a",
       "name": "Merge1"
@@ -194,8 +194,8 @@
       "type": "n8n-nodes-base.splitOut",
       "typeVersion": 1,
       "position": [
-        1000,
-        340
+        980,
+        280
       ],
       "id": "f4928c13-9612-4796-9490-539edc1d4a7a",
       "name": "Split Out1"
@@ -323,8 +323,8 @@
       },
       "type": "n8n-nodes-base.stickyNote",
       "position": [
-        0,
-        0
+        -20,
+        20
       ],
       "typeVersion": 1,
       "id": "1e285e8a-367e-460e-abbb-1853f41b0fd8",
@@ -374,7 +374,7 @@
     {
       "parameters": {
         "mode": "runOnceForEachItem",
-        "jsCode": "const lang = $json._embedded.languages.map((item)=>({\n  tag: item.tag,\n  name: item.name\n}))\nreturn {\n  lang,\n  project: $('FilterNamespace').item.json.project,\n  languageBase: $('FilterNamespace').item.json.languageBase\n};"
+        "jsCode": "const lang = $json._embedded.languages.map((item)=>({\n  tag: item.tag,\n  name: item.name\n}))\nreturn {\n  lang,\n  project: $('Each').item.json.project,\n  languageBase: $('Each').item.json.languageBase\n};"
       },
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
@@ -422,7 +422,7 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1520,
+        1740,
         640
       ],
       "id": "e8067e13-f11a-4b0b-acf6-0e60749a8a1e",
@@ -430,12 +430,14 @@
     },
     {
       "parameters": {
-        "options": {}
+        "options": {
+          "fileName": "ReportAutotranslateTolgee.csv"
+        }
       },
       "type": "n8n-nodes-base.convertToFile",
       "typeVersion": 1.1,
       "position": [
-        2180,
+        2400,
         640
       ],
       "id": "73cf5cf5-7a69-40f4-a5df-01b3a16728a9",
@@ -452,7 +454,7 @@
       "type": "n8n-nodes-base.slack",
       "typeVersion": 2.3,
       "position": [
-        2400,
+        2720,
         640
       ],
       "id": "2a43d622-1698-44a4-852d-56d02796471b",
@@ -493,7 +495,7 @@
       "type": "n8n-nodes-base.if",
       "typeVersion": 2.2,
       "position": [
-        1700,
+        1920,
         660
       ],
       "id": "17c668a0-2186-442e-8b7e-7d275e2b5220",
@@ -506,27 +508,51 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        1960,
+        2180,
         640
       ],
       "id": "33187969-c6a8-46a5-ba20-002c6d762fd3",
       "name": "GroupByProject"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1200,
+        940
+      ],
+      "id": "16144e03-d067-4171-9242-3ed2c8a6a1f5",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.noOp",
+      "name": "Each",
+      "typeVersion": 1,
+      "position": [
+        -20,
+        460
+      ],
+      "id": "33e471a8-6e9c-459b-9dd6-002c9c1cfdb9"
     }
   ],
   "pinData": {
     "Schedule Trigger": [
       {
         "json": {
-          "timestamp": "2025-05-16T17:44:52.011+07:00",
-          "Readable date": "May 16th 2025, 5:44:52 pm",
-          "Readable time": "5:44:52 pm",
-          "Day of week": "Friday",
+          "timestamp": "2025-06-10T18:00:57.008+07:00",
+          "Readable date": "June 10th 2025, 6:00:57 pm",
+          "Readable time": "6:00:57 pm",
+          "Day of week": "Tuesday",
           "Year": "2025",
-          "Month": "May",
-          "Day of month": "16",
-          "Hour": "17",
-          "Minute": "44",
-          "Second": "52",
+          "Month": "June",
+          "Day of month": "10",
+          "Hour": "18",
+          "Minute": "00",
+          "Second": "57",
           "Timezone": "Asia/Ho_Chi_Minh (UTC+07:00)"
         }
       }
@@ -677,7 +703,7 @@
       "main": [
         [
           {
-            "node": "GetLanguages",
+            "node": "Loop Over Items1",
             "type": "main",
             "index": 0
           }
@@ -732,7 +758,7 @@
       "main": [
         [
           {
-            "node": "FilterUnReviewd",
+            "node": "Loop Over Items1",
             "type": "main",
             "index": 0
           }
@@ -783,6 +809,35 @@
           }
         ]
       ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "FilterUnReviewd",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Each",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Each": {
+      "main": [
+        [
+          {
+            "node": "GetLanguages",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
     }
   },
   "active": true,
@@ -791,7 +846,7 @@
     "timezone": "Asia/Ho_Chi_Minh",
     "callerPolicy": "workflowsFromSameOwner"
   },
-  "versionId": "2d11722b-ca8d-45a7-90ca-48a15cbfa66a",
+  "versionId": "20ebdd1c-18bd-484a-9b1f-606ad77c2793",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "98bfed1c0f22fa9e07d0e38dc58da94b0281d63095bd4ba14894d42a90a063e3"
