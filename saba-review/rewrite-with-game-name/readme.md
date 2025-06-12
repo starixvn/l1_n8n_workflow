@@ -29,13 +29,26 @@ CREATE TABLE public.writer (
 );
 ```
 
+### 3. Self host crawl service (Crawl4AI)
+
+Refer to [Crawl4AI documentation](https://docs.crawl4ai.com) for more information.
+
 ---
 
 ## ⚙️ Creating a Workflow
 
-1. Go to your folder and click **➕ New Workflow**.
-2. Import from file and choose item suitable.
-3. Check sub workflow node and some credential.
+1. Open n8n and navigate to the **Workflows** section.
+2. Click **➕ New Workflow** to create a new workflow.
+3. To use a pre-built workflow from this folder (`saba-review/rewrite-with-game-name/`):
+   - Click the **Import from File** button.
+   - Select the desired workflow file (e.g., `.json`) from this folder.
+   - The workflow will be loaded into the editor.
+4. Review the workflow:
+   - Check for any **Sub-Workflow** nodes and ensure the referenced sub-workflows are also imported.
+   - Verify that all required **Credentials** (API keys, database connections, etc.) are set up in n8n.
+5. Save and activate your workflow.
+
+> **Tip:** You can find example workflow files and resources in the `saba-review/rewrite-with-game-name/` folder.
 
 ---
 

@@ -4,7 +4,7 @@
     {
       "parameters": {
         "options": {
-          "systemMessage": "=You are a content creator. Your style is {{$json.description}}. Your task is to write a compelling and original review of a specific game to single html file. To do this, gather and synthesize information from multiple reputable game review websites such as slotsjudge, aboutslots. Use search_game_tool to search url to crawl, after that use crawl_website_tool to get content and images. Your review should be well-structured, engaging, and informative, highlighting the game's strengths, weaknesses, gameplay mechanics, graphics, story, and overall experience. Should have images of game include. The output must be html format."
+          "systemMessage": "=You are a content creator. Your style is {{$json.style}}. Your task is to write a compelling and original review of a specific game to single html file. To do this, gather and synthesize information from multiple reputable game review websites such as slotsjudge, aboutslots. Use search_game_tool to search url to crawl, after that use crawl_website_tool to get content and images. Your review should be well-structured, engaging, and informative, highlighting the game's strengths, weaknesses, gameplay mechanics, graphics, story, and overall experience. Should have images of game include. The output must be html format."
         }
       },
       "type": "@n8n/n8n-nodes-langchain.agent",
@@ -29,8 +29,8 @@
       "type": "@n8n/n8n-nodes-langchain.lmChatOpenAi",
       "typeVersion": 1.2,
       "position": [
-        560,
-        340
+        100,
+        320
       ],
       "id": "17d8812b-103e-4a18-acae-88df2d12591c",
       "name": "OpenAI Chat Model1",
@@ -63,21 +63,6 @@
     },
     {
       "parameters": {
-        "operation": "toText",
-        "sourceProperty": "output",
-        "options": {}
-      },
-      "type": "n8n-nodes-base.convertToFile",
-      "typeVersion": 1.1,
-      "position": [
-        920,
-        0
-      ],
-      "id": "716fbcb0-6417-4afe-bdc5-c43a24335406",
-      "name": "Convert to File"
-    },
-    {
-      "parameters": {
         "operation": "write",
         "fileName": "={{ $('Trigger').item.json.path }}",
         "dataPropertyName": "=data",
@@ -100,7 +85,7 @@
               "name": "chatInput"
             },
             {
-              "name": "description"
+              "name": "style"
             },
             {
               "name": "path"
@@ -154,8 +139,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.1,
       "position": [
-        400,
-        280
+        640,
+        460
       ],
       "id": "a1a2e1ab-01b1-4ffd-8d08-478712bf7e93",
       "name": "SeachUrl"
@@ -197,8 +182,8 @@
       "type": "@n8n/n8n-nodes-langchain.toolWorkflow",
       "typeVersion": 2.1,
       "position": [
-        680,
-        200
+        1220,
+        380
       ],
       "id": "b405bb38-f11f-444a-a33f-991108b128b7",
       "name": "CrawlTool"
@@ -216,6 +201,81 @@
       ],
       "id": "79065f8d-5229-4550-b6ca-509f9d49f002",
       "name": "Reformat"
+    },
+    {
+      "parameters": {
+        "content": "## Trigger from other workflows\n\nInput:\n```json\n{\n\"chatInput\": Input game name,\n\"style\": style of review,\n\"path\": path of folder to save html\n}\n```",
+        "height": 360,
+        "width": 480
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -280,
+        -220
+      ],
+      "typeVersion": 1,
+      "id": "a9f141e6-4b1c-499d-9f33-bc936b38f498",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "## n8n workflow tool\nCall this tool to get url to crawl",
+        "height": 240,
+        "width": 400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        360,
+        360
+      ],
+      "typeVersion": 1,
+      "id": "57304400-a9b4-4bd9-9584-a013c6c79487",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "## n8n workflow tool\nCall this tool to crawl a webpage with url",
+        "height": 240,
+        "width": 400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        920,
+        320
+      ],
+      "typeVersion": 1,
+      "id": "96954109-9861-4b86-9524-0a4bf4bbdfe6",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "operation": "toText",
+        "sourceProperty": "output",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        920,
+        0
+      ],
+      "id": "716fbcb0-6417-4afe-bdc5-c43a24335406",
+      "name": "ConvertContentToFile"
+    },
+    {
+      "parameters": {
+        "content": "## AI Agent\nAgent will decide tool to call (can describe in system prompt to do that). Based on result from tool, agent will rewrite follow request from user.",
+        "height": 260,
+        "width": 400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        260,
+        -140
+      ],
+      "typeVersion": 1,
+      "id": "5b42f7c4-1458-411f-8cff-96a201ab9014",
+      "name": "Sticky Note3"
     }
   ],
   "pinData": {
@@ -223,7 +283,7 @@
       {
         "json": {
           "chatInput": "Review game Sweet Bonanza",
-          "description": "Focuses on games with high volatility, big win potential, and bonus buy features. They're interested in max bets and chasing massive payouts. They often discuss bankroll management for large sums.",
+          "style": "Focuses on games with high volatility, big win potential, and bonus buy features. They're interested in max bets and chasing massive payouts. They often discuss bankroll management for large sums.",
           "path": "/tmp/saba-review/jackpot_jinx/sweet_bonanza.html"
         }
       }
@@ -247,17 +307,6 @@
           {
             "node": "AI Agent",
             "type": "ai_languageModel",
-            "index": 0
-          }
-        ]
-      ]
-    },
-    "Convert to File": {
-      "main": [
-        [
-          {
-            "node": "Read/Write Files from Disk",
-            "type": "main",
             "index": 0
           }
         ]
@@ -300,7 +349,18 @@
       "main": [
         [
           {
-            "node": "Convert to File",
+            "node": "ConvertContentToFile",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ConvertContentToFile": {
+      "main": [
+        [
+          {
+            "node": "Read/Write Files from Disk",
             "type": "main",
             "index": 0
           }
@@ -312,7 +372,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "6fa389ea-9207-4b66-907a-2b993a09f1f3",
+  "versionId": "9770e3c0-b5d7-4bbf-9d8e-3867941dc9bf",
   "meta": {
     "templateCredsSetupCompleted": true,
     "instanceId": "98bfed1c0f22fa9e07d0e38dc58da94b0281d63095bd4ba14894d42a90a063e3"

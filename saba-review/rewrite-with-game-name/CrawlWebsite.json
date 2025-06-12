@@ -14,11 +14,26 @@
       "type": "n8n-nodes-base.executeWorkflowTrigger",
       "typeVersion": 1.1,
       "position": [
-        -260,
+        -440,
         -280
       ],
       "id": "b07aece9-e806-4095-821b-0387c882c607",
       "name": "TriggerNode"
+    },
+    {
+      "parameters": {
+        "content": "## Trigger from other workflow\nInput:\n```json\n{\n \"url\": url of webpage to crawl\n}\n```",
+        "height": 340,
+        "width": 400
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -660,
+        -460
+      ],
+      "typeVersion": 1,
+      "id": "745f6cfd-8123-4393-8194-537e535bedac",
+      "name": "Sticky Note"
     },
     {
       "parameters": {
@@ -32,11 +47,11 @@
       "type": "n8n-nodes-base.httpRequest",
       "typeVersion": 4.2,
       "position": [
-        -40,
+        0,
         -280
       ],
       "id": "af3e82f1-1e5a-4636-8e55-3e1eeb163958",
-      "name": "HTTP Request"
+      "name": "Call Crawl Use Crawl4AI Service"
     },
     {
       "parameters": {
@@ -46,11 +61,41 @@
       "type": "n8n-nodes-base.code",
       "typeVersion": 2,
       "position": [
-        180,
+        380,
         -280
       ],
       "id": "28bbeb5a-6b54-43b8-b2de-b722a2871a4c",
-      "name": "Code"
+      "name": "FilterOutput"
+    },
+    {
+      "parameters": {
+        "content": "The service output includes a lot of data, and we need to extract the relevant parts to handle the task.",
+        "height": 320,
+        "width": 320
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        300,
+        -420
+      ],
+      "typeVersion": 1,
+      "id": "ceeda711-9cff-440f-a9a0-7358e76ccbe0",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "We use the self-hosted Crawl4AI service for crawling. It supports using LLMs to extract data, but in our case, we don't need LLM-based extraction. You can refer to [Crawl4AI documentation](https://docs.crawl4ai.com) for more information.",
+        "height": 420,
+        "width": 380
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -160,
+        -460
+      ],
+      "typeVersion": 1,
+      "id": "db342ed5-f44b-4994-afbd-796e26e64907",
+      "name": "Sticky Note2"
     }
   ],
   "pinData": {
@@ -67,18 +112,18 @@
       "main": [
         [
           {
-            "node": "HTTP Request",
+            "node": "Call Crawl Use Crawl4AI Service",
             "type": "main",
             "index": 0
           }
         ]
       ]
     },
-    "HTTP Request": {
+    "Call Crawl Use Crawl4AI Service": {
       "main": [
         [
           {
-            "node": "Code",
+            "node": "FilterOutput",
             "type": "main",
             "index": 0
           }
@@ -90,7 +135,7 @@
   "settings": {
     "executionOrder": "v1"
   },
-  "versionId": "96a1c0e4-4237-4c2d-9926-bb5f8f079bb9",
+  "versionId": "da94448f-e605-4352-b611-690dcea54e8e",
   "meta": {
     "instanceId": "98bfed1c0f22fa9e07d0e38dc58da94b0281d63095bd4ba14894d42a90a063e3"
   },
