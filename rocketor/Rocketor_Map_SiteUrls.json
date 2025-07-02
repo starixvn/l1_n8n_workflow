@@ -1,0 +1,806 @@
+{
+  "name": "Rocketor Map SiteUrls",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -1060,
+        -280
+      ],
+      "id": "47e8b50b-f37a-4e43-a090-105779585261",
+      "name": "When clicking ‘Test workflow’"
+    },
+    {
+      "parameters": {
+        "url": "https://deploy.lumigame.com/api/Site/GetSitesByGitRepo",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "GitRepoUrl",
+              "value": "={{ $json.web_url }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        60,
+        -240
+      ],
+      "id": "52d0eb47-7f4f-41f7-940b-c0044592f47b",
+      "name": "Search SiteId By Git Repo",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "PFerICRo480lY7rT",
+          "name": "Rocketor Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "Sites",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        60,
+        -440
+      ],
+      "id": "3a03a676-8419-4c61-b5b0-031c5058c7b1",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://deploy.lumigame.com/api/Site/DeployLocation",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "=json",
+        "specifyBody": "json",
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "jsonBody": "={\n  \"siteId\":  {{ $json.SiteId }},\n  \"branch\": \"{{ $json.Branch }}\",\n  \"location\":\"{{ $json.LocationName }}\"\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -720,
+        80
+      ],
+      "id": "474e9c17-5308-40ad-8530-74f96a01e146",
+      "name": "Deploy",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "PFerICRo480lY7rT",
+          "name": "Rocketor Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        520,
+        -440
+      ],
+      "id": "1b3e5c34-0e1c-4703-ab7b-a1445c6696ec",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  stack: \"l1\",\n  branchName: \"kl-deployment\",\n  env: \"sit\"\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        -840,
+        -280
+      ],
+      "id": "c1414537-dd23-47d6-8b06-2181106db735",
+      "name": "StartupConfigs"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        -260,
+        -280
+      ],
+      "id": "2e4cf5c4-cc78-43fb-9565-daad1a2eedf8",
+      "name": "Loop Over Items1"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ce9b92e6-7ae8-4d6d-97d8-ad93e769f89c",
+              "leftValue": "={{ $json.StatusCode }}",
+              "rightValue": 200,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        20,
+        60
+      ],
+      "id": "c3426eea-4b23-44a1-82a2-669f97a9f165",
+      "name": "Has Active Site",
+      "disabled": true
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nlet services = []\nfor (const item of $input.all()) {\n  if(item.json.Stack === $('StartupConfigs').first().json.stack)\n  {\n    item.json.OriginalServiceName = item.json.Service\n    item.json.Service = item.json.Service.replaceAll( /_/gi,  `-`,);\n    item.json.Env = $('StartupConfigs').first().json.env;\n    item.json.BranchName = $('StartupConfigs').first().json.branchName;\n   \n    services.push(item.json);\n  }\n}\n\nreturn services ;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        260,
+        -460
+      ],
+      "id": "130ff320-2911-4e80-a11e-835e08cb0dfc",
+      "name": "FilterAndFormat"
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        -500,
+        80
+      ],
+      "id": "1d62b55d-9467-47f2-8d87-e8cafb942e1e",
+      "name": "Wait 2 seconds",
+      "webhookId": "36ed3ea0-6e01-4ba6-a7be-9b1ab2e0128c"
+    },
+    {
+      "parameters": {
+        "url": "https://deploy.lumigame.com/api/Site/GetLocation",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "SiteId",
+              "value": "={{ $json.SiteId }}"
+            },
+            {
+              "name": "Name",
+              "value": "={{ $json.LocationName }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        960,
+        -120
+      ],
+      "id": "2c4fec13-5d1a-42fd-8bfd-49d4d8878921",
+      "name": "Get Site Urls",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "PFerICRo480lY7rT",
+          "name": "Rocketor Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "xlsx",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.convertToFile",
+      "typeVersion": 1.1,
+      "position": [
+        840,
+        -660
+      ],
+      "id": "b7308d2e-c196-4416-ab98-0d3e16e7a0f4",
+      "name": "Convert to XLSX"
+    },
+    {
+      "parameters": {
+        "url": "https://git3.nexdev.net/api/v4/groups/l1%2fgame-clients/projects?page=1&per_page=100&membership=true&archived=false",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "gitlabApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -540,
+        -280
+      ],
+      "id": "44dccb0a-4c29-46ae-87d5-1df637c70190",
+      "name": "Get all game client repositories",
+      "credentials": {
+        "gitlabApi": {
+          "id": "wcbdWdTeCB9d48Gi",
+          "name": "GitLab account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "5efc0a5a-5364-4bed-b3c8-e0ae7f302402",
+              "name": "SiteId",
+              "value": "={{ $json.Machine.SiteId }}",
+              "type": "number"
+            },
+            {
+              "id": "6cef52f9-5859-45c4-a909-cd298d61dcfb",
+              "name": "LocationName",
+              "value": "={{ $json.Machine.Name }}",
+              "type": "string"
+            },
+            {
+              "id": "c2e40a57-66b2-44bd-830c-f7c8cb1cccb4",
+              "name": "SiteUrls",
+              "value": "={{ $json.Machine.SiteUrls }}",
+              "type": "array"
+            },
+            {
+              "id": "8fa770ec-b0b3-44d1-9efb-29ba08fa88fb",
+              "name": "OriginalServiceName",
+              "value": "={{ $('Format LocationName').item.json.OriginalServiceName }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1200,
+        -120
+      ],
+      "id": "8fe1003a-3cfe-4e84-9603-fa9eff8cda54",
+      "name": "Extract SiteUrls"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "51fc17ca-226b-4a65-93a3-479a5f2af564",
+              "name": "SiteId",
+              "value": "={{ $json.Id }}",
+              "type": "number"
+            },
+            {
+              "id": "2818b764-a1c4-4fff-a61a-e095fb2e2a37",
+              "name": "LocationName",
+              "value": "={{ $json.Stack }}-{{ $json.Service }}-{{ $json.Env }}",
+              "type": "string"
+            },
+            {
+              "id": "06420a4d-241d-4515-95a8-5d8cf724ac64",
+              "name": "Branch",
+              "value": "={{ $json.BranchName }}",
+              "type": "string"
+            },
+            {
+              "id": "4c60e3f6-bcdc-4d24-a08e-02785d4d216e",
+              "name": "OriginalServiceName",
+              "value": "={{ $json.Stack }}_{{ $json.OriginalServiceName }}_{{ $json.Env }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        720,
+        -120
+      ],
+      "id": "b3e6a739-3631-41c1-9731-782769404771",
+      "name": "Format LocationName"
+    },
+    {
+      "parameters": {
+        "method": "POST",
+        "url": "https://deploy.lumigame.com/api/Site/MapProxy",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendBody": true,
+        "contentType": "=json",
+        "specifyBody": "json",
+        "bodyParameters": {
+          "parameters": [
+            {}
+          ]
+        },
+        "jsonBody": "={\n  \"siteId\":  {{ $json.SiteId }},\n  \"location\":\"{{ $json.LocationName }}\",\n  \"siteUrls\":[\"{{ $json.newDomains[0] }}\", \"{{ $json.newDomains[1] }}\"] ,\n \"haProxyMapType\": 2\n}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1600,
+        -420
+      ],
+      "id": "6ebf6344-6362-4436-8682-6cc2cbd8a846",
+      "name": "MapProxy",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "PFerICRo480lY7rT",
+          "name": "Rocketor Token"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "jsCode": "\nlet newRoots = [\n\t\"https://l1uatclient.sgamesuat.com/\",\n\t\"https://l1uatproxy.sgamesuat.com/\"\n]\nconst defaultRoot = \"https://l1uatcli.foodpandaoh.net/\";\n\nfor (const item of $input.all()) {\n  item.json.newDomains = [];\n  if(item.json.SiteUrls !== null && item.json.SiteUrls.length > 0)\n  {\n      if(item.json.SiteUrls[0].includes(defaultRoot) )\n    {\n        item.json.newDomains = newRoots.map(\n          root => item\n                  .json.SiteUrls[0]\n                  .replace(defaultRoot, root)\n                  .trim());\n    }  \n  }  \n}\n\nreturn $input.all();"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1340,
+        -420
+      ],
+      "id": "f27b0230-eed5-4366-b123-0535a3414d95",
+      "name": "ReplaceNewDomains"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "a058d85a-9e94-46c8-a970-2fe4cc7c0db8",
+              "leftValue": "={{ $json.SiteUrls }}",
+              "rightValue": "",
+              "operator": {
+                "type": "array",
+                "operation": "empty",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1080,
+        -440
+      ],
+      "id": "e2b11d82-fd70-4733-b4ff-a31ea25f1033",
+      "name": "Not Have SiteUrls1"
+    },
+    {
+      "parameters": {
+        "url": "https://git3.nexdev.net/api/v4/groups/l1%2fgame-services/projects?page=1&per_page=100&membership=true&archived=false",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "gitlabApi",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        -540,
+        -460
+      ],
+      "id": "8371a3b2-3339-4d10-ad85-63d2e5356c92",
+      "name": "Get all game service repositories",
+      "credentials": {
+        "gitlabApi": {
+          "id": "wcbdWdTeCB9d48Gi",
+          "name": "GitLab account 4"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "content": "## Setup Configs \n**Double click** to edit me.\n- stack: \"l1\"\n- branchName: \"kl-deployment\"\n- env: \"sit\"\n",
+        "height": 360,
+        "width": 260
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -900,
+        -460
+      ],
+      "typeVersion": 1,
+      "id": "16cbb849-b651-4ade-9c2b-41330d35850c",
+      "name": "Sticky Note"
+    },
+    {
+      "parameters": {
+        "content": "Pick node for **Game Services** or **Game Clients**\n",
+        "height": 420,
+        "width": 260
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        -600,
+        -520
+      ],
+      "typeVersion": 1,
+      "id": "6ea35fee-bd05-48cb-a6d0-83b0048326a4",
+      "name": "Sticky Note1"
+    },
+    {
+      "parameters": {
+        "content": "Filter by **stack**\n",
+        "height": 200,
+        "width": 220
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        200,
+        -520
+      ],
+      "typeVersion": 1,
+      "id": "bdb1de23-8265-4c9f-8619-52344ac8b34a",
+      "name": "Sticky Note2"
+    },
+    {
+      "parameters": {
+        "content": "Must **review** domain list to replace.\nnewDomains = [\t\"https://l1uatclient.sgamesuat.com/\",\t\"https://l1uatproxy.sgamesuat.com/\"\n]\n\ndefaultRoot = \"https://l1uatcli.foodpandaoh.net/\";\n",
+        "height": 320,
+        "width": 260
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1260,
+        -580
+      ],
+      "typeVersion": 1,
+      "id": "88f4c374-9726-46a6-bd62-cb52c08babfc",
+      "name": "Sticky Note3"
+    },
+    {
+      "parameters": {
+        "content": "Must **review** domain to map in Rocketor \n **\"siteUrls\"**:[...]\n\n",
+        "height": 240,
+        "width": 260
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1540,
+        -500
+      ],
+      "typeVersion": 1,
+      "id": "ad3f0354-dbd0-445f-bf11-dba052c9a906",
+      "name": "Sticky Note4"
+    },
+    {
+      "parameters": {
+        "content": "Game Client **NEED** more time to map ingress\n\n",
+        "height": 240,
+        "width": 260
+      },
+      "type": "n8n-nodes-base.stickyNote",
+      "position": [
+        1820,
+        -500
+      ],
+      "typeVersion": 1,
+      "id": "583af325-e203-4f6f-9d85-06aa502a116a",
+      "name": "Sticky Note5"
+    },
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1880,
+        -420
+      ],
+      "id": "5da1f6d0-d20a-47af-a525-c389cc091ed8",
+      "name": "Wait 5 sec",
+      "webhookId": "36ed3ea0-6e01-4ba6-a7be-9b1ab2e0128c"
+    },
+    {
+      "parameters": {
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        840,
+        -460
+      ],
+      "id": "a79a6b15-84b1-4b19-aa5c-32106de02956",
+      "name": "Loop All Sites"
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "When clicking ‘Test workflow’": {
+      "main": [
+        [
+          {
+            "node": "StartupConfigs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search SiteId By Git Repo": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "FilterAndFormat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Convert to XLSX",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Loop All Sites",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Format LocationName",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Deploy": {
+      "main": [
+        [
+          {
+            "node": "Wait 2 seconds",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "StartupConfigs": {
+      "main": [
+        [
+          {
+            "node": "Get all game client repositories",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items1": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Search SiteId By Git Repo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Active Site": {
+      "main": [
+        [],
+        []
+      ]
+    },
+    "FilterAndFormat": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Site Urls": {
+      "main": [
+        [
+          {
+            "node": "Extract SiteUrls",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Convert to XLSX": {
+      "main": [
+        []
+      ]
+    },
+    "Get all game client repositories": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Extract SiteUrls": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Format LocationName": {
+      "main": [
+        [
+          {
+            "node": "Get Site Urls",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "MapProxy": {
+      "main": [
+        [
+          {
+            "node": "Wait 5 sec",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "ReplaceNewDomains": {
+      "main": [
+        [
+          {
+            "node": "MapProxy",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Not Have SiteUrls1": {
+      "main": [
+        [
+          {
+            "node": "Loop All Sites",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "ReplaceNewDomains",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get all game service repositories": {
+      "main": [
+        []
+      ]
+    },
+    "Wait 5 sec": {
+      "main": [
+        [
+          {
+            "node": "Loop All Sites",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop All Sites": {
+      "main": [
+        [],
+        [
+          {
+            "node": "Not Have SiteUrls1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "355ee027-8f0b-417a-be74-e31e51584d24",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "98bfed1c0f22fa9e07d0e38dc58da94b0281d63095bd4ba14894d42a90a063e3"
+  },
+  "id": "pPubaObxK3GWFD5y",
+  "tags": []
+}
