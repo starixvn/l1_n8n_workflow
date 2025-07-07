@@ -1,0 +1,1111 @@
+{
+  "name": "Check Site Consistent",
+  "nodes": [
+    {
+      "parameters": {},
+      "type": "n8n-nodes-base.manualTrigger",
+      "typeVersion": 1,
+      "position": [
+        -100,
+        760
+      ],
+      "id": "4315f71b-46ca-43ef-a2a2-0337fd92f0dc",
+      "name": "Trigger"
+    },
+    {
+      "parameters": {
+        "batchSize": "={{ 1 }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        640,
+        740
+      ],
+      "id": "49ecee9c-50d1-4821-805c-39bc9eaf8af6",
+      "name": "Loop Over Projects"
+    },
+    {
+      "parameters": {
+        "jsCode": "let sites = [\n    {\n        \"siteId\": 156,\n        \"siteName\": \"CI Notification Bot\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/ci-notification-bot.git\"\n    },\n    {\n        \"siteId\": 150,\n        \"siteName\": \"SC1 - Automation Test Notification Bot\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/ui-automation-tests/automation-test-notification-bot.git\"\n    },\n    {\n        \"siteId\": 239,\n        \"siteName\": \"SC1 Connection Auto Test Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-running-checker-service.git\"\n    },\n    {\n        \"siteId\": 256,\n        \"siteName\": \"SC1 Round Watcher Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/round-watcher-service.git\"\n    },\n    {\n        \"siteId\": 238,\n        \"siteName\": \"SC1 RTP Checker Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/rtp-checker-service.git\"\n    },\n    {\n        \"siteId\": 232,\n        \"siteName\": \"SC1 Tolgee Auto\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/tolgee-auto.git\"\n    },\n    {\n        \"siteId\": 730,\n        \"siteName\": \"SC1 Top Win Stats Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/top-win-stats-service.git\"\n    },\n    {\n        \"siteId\": 599,\n        \"siteName\": \"SG/VG - Maintenance Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/maintenance-tools/maintenance-site.git\"\n    },\n    {\n        \"siteId\": 86,\n        \"siteName\": \"Exchange Rate Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:pentagon/exchange-rate-service.git\"\n    },\n    {\n        \"siteId\": 372,\n        \"siteName\": \"SC1 - Socket Monitor\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/monitoring/socket-monitor-service.git\"\n    },\n    {\n        \"siteId\": 93,\n        \"siteName\": \"SC1 Admin  Monitoring Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/game-admin-monitoring.git\"\n    },\n    {\n        \"siteId\": 8,\n        \"siteName\": \"SC1 Admin API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-admin.git\"\n    },\n    {\n        \"siteId\": 651,\n        \"siteName\": \"SC1 Admin Game Performance\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/game-performance-monitoring.git\"\n    },\n    {\n        \"siteId\": 740,\n        \"siteName\": \"SC1 Admin Logs API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/api-logs-query.git\"\n    },\n    {\n        \"siteId\": 747,\n        \"siteName\": \"SC1 Admin Logs API Swagger\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/api-logs-query.git\"\n    },\n    {\n        \"siteId\": 778,\n        \"siteName\": \"SC1 Admin Promotion Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/admin-promotion-site.git\"\n    },\n    {\n        \"siteId\": 7,\n        \"siteName\": \"SC1 Admin Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-admin.git\"\n    },\n    {\n        \"siteId\": 663,\n        \"siteName\": \"SC1 Admin Statement API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/statement-api.git\"\n    },\n    {\n        \"siteId\": 739,\n        \"siteName\": \"SC1 Api Event Consumer Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/api-event-consumer.git\"\n    },\n    {\n        \"siteId\": 6,\n        \"siteName\": \"SC1 Auth API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/api.git\"\n    },\n    {\n        \"siteId\": 5,\n        \"siteName\": \"SC1 Game API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/api.git\"\n    },\n    {\n        \"siteId\": 724,\n        \"siteName\": \"SC1 Game API-Cloned\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/api.git\"\n    },\n    {\n        \"siteId\": 11,\n        \"siteName\": \"SC1 Game Lobby Simulator\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/api-simulators.git\"\n    },\n    {\n        \"siteId\": 295,\n        \"siteName\": \"SC1 Game Management Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/game-management-service.git\"\n    },\n    {\n        \"siteId\": 757,\n        \"siteName\": \"SC1 Game Promotion API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/game-promotion-api.git\"\n    },\n    {\n        \"siteId\": 9,\n        \"siteName\": \"SC1 Game Round Result\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-round-result.git\"\n    },\n    {\n        \"siteId\": 570,\n        \"siteName\": \"SC1 Live Page Gateway\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/livepage-socket-gateway.git\"\n    },\n    {\n        \"siteId\": 569,\n        \"siteName\": \"SC1 Livepage User Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/user-service.git\"\n    },\n    {\n        \"siteId\": 748,\n        \"siteName\": \"SC1 Logs API Postman\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/api-logs-query.git\"\n    },\n    {\n        \"siteId\": 12,\n        \"siteName\": \"SC1 OW API Simulator\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/operator-simulators.git\"\n    },\n    {\n        \"siteId\": 107,\n        \"siteName\": \"SC1 SG Api\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/sg-api.git\"\n    },\n    {\n        \"siteId\": 189,\n        \"siteName\": \"SC1 SG Connect Api\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/sg-connect.git\"\n    },\n    {\n        \"siteId\": 187,\n        \"siteName\": \"SC1 SG Connect Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/sg-connect.git\"\n    },\n    {\n        \"siteId\": 64,\n        \"siteName\": \"SC1 Socket Gateway\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/socket-gateway.git\"\n    },\n    {\n        \"siteId\": 10,\n        \"siteName\": \"SC1 User Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/user-service.git\"\n    },\n    {\n        \"siteId\": 354,\n        \"siteName\": \"Bot Tool\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/chinese-poker-on-rust.git\"\n    },\n    {\n        \"siteId\": 361,\n        \"siteName\": \"Chinese Poker Bot - Blend Mode\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/chinese-poker-on-rust.git\"\n    },\n    {\n        \"siteId\": 300,\n        \"siteName\": \"Chinese Poker Bot - CD\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/chinese-poker-cd-bot.git\"\n    },\n    {\n        \"siteId\": 292,\n        \"siteName\": \"Chinese Poker Bot - Combine Mode\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/bots.git\"\n    },\n    {\n        \"siteId\": 289,\n        \"siteName\": \"Chinese Poker Bot - Filter Mode\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/bots.git\"\n    },\n    {\n        \"siteId\": 282,\n        \"siteName\": \"Chinese Poker Bot - Local Mode\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/bots.git\"\n    },\n    {\n        \"siteId\": 301,\n        \"siteName\": \"Chinese Poker Bot - Pick Mode\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/bots.git\"\n    },\n    {\n        \"siteId\": 297,\n        \"siteName\": \"Chinese Poker Bot - Probability Mode\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/bots/chinese-poker-probable-bot.git\"\n    },\n    {\n        \"siteId\": 290,\n        \"siteName\": \"Chinese Poker Bot - Simple Mode\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/bots/chinese-poker-on-rust.git\"\n    },\n    {\n        \"siteId\": 308,\n        \"siteName\": \"Chinese Poker Bot On Rust\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/chinese-poker-on-rust.git\"\n    },\n    {\n        \"siteId\": 285,\n        \"siteName\": \"Chinese Poker Game Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/bots.git\"\n    },\n    {\n        \"siteId\": 366,\n        \"siteName\": \"Chinese Poker On Rust - Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/chinese-poker-on-rust.git\"\n    },\n    {\n        \"siteId\": 296,\n        \"siteName\": \"Chinese Poker Test Bot UI\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/chinese-poker-ui-test-bot.git\"\n    },\n    {\n        \"siteId\": 554,\n        \"siteName\": \"Game Streaming Client Demo\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/research/live-streaming-service.git\"\n    },\n    {\n        \"siteId\": 552,\n        \"siteName\": \"Game Streaming Service Demo\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/research/game-streaming-service-demo.git\"\n    },\n    {\n        \"siteId\": 798,\n        \"siteName\": \"n8n - Crawl4ai\",\n        \"gitUrl\": \"git@git3.nexdev.net:elias.ngo/n8n-mcp.git\"\n    },\n    {\n        \"siteId\": 774,\n        \"siteName\": \"N8n - MCP - Jira\",\n        \"gitUrl\": \"git@git3.nexdev.net:elias.ngo/n8n-mcp.git\"\n    },\n    {\n        \"siteId\": 777,\n        \"siteName\": \"N8n - MCP - Sentry\",\n        \"gitUrl\": \"git@git3.nexdev.net:elias.ngo/n8n-mcp.git\"\n    },\n    {\n        \"siteId\": 756,\n        \"siteName\": \"n8n - postgres\",\n        \"gitUrl\": \"git@git3.nexdev.net:elias.ngo/postgres-db.git\"\n    },\n    {\n        \"siteId\": 608,\n        \"siteName\": \"Pusoy Bot - Sai\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/bots/pusoy-p1.git\"\n    },\n    {\n        \"siteId\": 377,\n        \"siteName\": \"Pusoy Service  Demo - nodejs\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/research/demo-pusoy-service.git\"\n    },\n    {\n        \"siteId\": 287,\n        \"siteName\": \"Simulator\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/bots.git\"\n    },\n    {\n        \"siteId\": 356,\n        \"siteName\": \"Streaming - Chromium\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/chromium-stream.git\"\n    },\n    {\n        \"siteId\": 357,\n        \"siteName\": \"Streaming - Server\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/stream.git\"\n    },\n    {\n        \"siteId\": 799,\n        \"siteName\": \"Test\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/tlmn.git\"\n    },\n    {\n        \"siteId\": 797,\n        \"siteName\": \"Thirteen Demo\",\n        \"gitUrl\": \"git@git3.nexdev.net:elias.ngo/thirteen-client-demo.git\"\n    },\n    {\n        \"siteId\": 574,\n        \"siteName\": \"SC1 Christmas Crash\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/crash-game-service.git\"\n    },\n    {\n        \"siteId\": 313,\n        \"siteName\": \"SC1 Crash Game Monitor Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/crash-game-monitor-service.git\"\n    },\n    {\n        \"siteId\": 568,\n        \"siteName\": \"SC1 Football Crash\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/crash-game-service.git\"\n    },\n    {\n        \"siteId\": 721,\n        \"siteName\": \"SC1 RocketX Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/two-hands-crash-game-service.git\"\n    },\n    {\n        \"siteId\": 275,\n        \"siteName\": \"SC1 Spaceflight Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/crash-game-service.git\"\n    },\n    {\n        \"siteId\": 502,\n        \"siteName\": \"GN Core Client Demo\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/sedie-client-demo.git\"\n    },\n    {\n        \"siteId\": 283,\n        \"siteName\": \"SC - Bandar Qiu Qiu Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/bandar-qiu-qiu-client.git\"\n    },\n    {\n        \"siteId\": 269,\n        \"siteName\": \"SC - Color Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/color-game-client.git\"\n    },\n    {\n        \"siteId\": 226,\n        \"siteName\": \"SC - Dragon Tiger Fight Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/dragon-tiger-fight-client.git\"\n    },\n    {\n        \"siteId\": 228,\n        \"siteName\": \"SC - Game Client - Template\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-template.git\"\n    },\n    {\n        \"siteId\": 365,\n        \"siteName\": \"SC - Instant Coin Toss Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/coin-toss-instant-client.git\"\n    },\n    {\n        \"siteId\": 276,\n        \"siteName\": \"SC - Instant Color Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/color-game-client.git\"\n    },\n    {\n        \"siteId\": 379,\n        \"siteName\": \"SC - Instant Football Coin Toss Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/football-coin-toss-instant-client.git\"\n    },\n    {\n        \"siteId\": 389,\n        \"siteName\": \"SC - Pusoy Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/pusoy-client2.git\"\n    },\n    {\n        \"siteId\": 861,\n        \"siteName\": \"SC Aladdins Wishes Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/aladdin-client.git\"\n    },\n    {\n        \"siteId\": 831,\n        \"siteName\": \"SC Aztec Princess Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/aztec-warrior-princess.git\"\n    },\n    {\n        \"siteId\": 524,\n        \"siteName\": \"SC Bac100 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 525,\n        \"siteName\": \"SC Bac101 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 374,\n        \"siteName\": \"SC Bac81 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 512,\n        \"siteName\": \"SC Bac82 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 514,\n        \"siteName\": \"SC Bac83 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 494,\n        \"siteName\": \"SC Bac84 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 515,\n        \"siteName\": \"SC Bac85 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 516,\n        \"siteName\": \"SC Bac86 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 517,\n        \"siteName\": \"SC Bac87 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 518,\n        \"siteName\": \"SC Bac88 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 519,\n        \"siteName\": \"SC Bac89 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 520,\n        \"siteName\": \"SC Bac90 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 521,\n        \"siteName\": \"SC Bac91 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 522,\n        \"siteName\": \"SC Bac92 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 523,\n        \"siteName\": \"SC Bac97 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 508,\n        \"siteName\": \"SC Bac98 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 741,\n        \"siteName\": \"SC Candy Land V3 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/cascading-slot-client.git\"\n    },\n    {\n        \"siteId\": 575,\n        \"siteName\": \"SC Christmas Crash Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/christmas-crash-client.git\"\n    },\n    {\n        \"siteId\": 500,\n        \"siteName\": \"SC Cocos Direct Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-game-client.git\"\n    },\n    {\n        \"siteId\": 661,\n        \"siteName\": \"SC Crypto Mining Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/coin-mining-client.git\"\n    },\n    {\n        \"siteId\": 800,\n        \"siteName\": \"SC Direct Bac81 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-lucky-baccarat-client.git\"\n    },\n    {\n        \"siteId\": 342,\n        \"siteName\": \"SC Football Dice Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/football-dice-client.git\"\n    },\n    {\n        \"siteId\": 848,\n        \"siteName\": \"SC Fruit Sumurai Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/fruit-samurai.git\"\n    },\n    {\n        \"siteId\": 847,\n        \"siteName\": \"SC Happy Farm Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/happy-farm.git\"\n    },\n    {\n        \"siteId\": 877,\n        \"siteName\": \"SC Instant Game V2 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/instant-game-client.git\"\n    },\n    {\n        \"siteId\": 878,\n        \"siteName\": \"SC Instant Lobby Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-game-client.git\"\n    },\n    {\n        \"siteId\": 480,\n        \"siteName\": \"SC Karakrus Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/kara-krus-client.git\"\n    },\n    {\n        \"siteId\": 816,\n        \"siteName\": \"SC Mahjong Wins Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/mahjong-wins-client.git\"\n    },\n    {\n        \"siteId\": 731,\n        \"siteName\": \"SC Marble Football 2 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/marble-football-2-client.git\"\n    },\n    {\n        \"siteId\": 564,\n        \"siteName\": \"SC Marble Football Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/marble-football-client.git\"\n    },\n    {\n        \"siteId\": 666,\n        \"siteName\": \"SC Marble Football Client Stream\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/marble-football-client.git\"\n    },\n    {\n        \"siteId\": 788,\n        \"siteName\": \"SC Poseidons Realm Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/poseidons-realm-client.git\"\n    },\n    {\n        \"siteId\": 725,\n        \"siteName\": \"SC RocketX Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-crash-game-v2-client.git\"\n    },\n    {\n        \"siteId\": 411,\n        \"siteName\": \"SC Sedie3 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/sedie-3-client.git\"\n    },\n    {\n        \"siteId\": 281,\n        \"siteName\": \"SC Spaceflight Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/space-flight-client.git\"\n    },\n    {\n        \"siteId\": 879,\n        \"siteName\": \"SC Summer Heat V3 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/standard-classic-slot.git\"\n    },\n    {\n        \"siteId\": 607,\n        \"siteName\": \"SC Tap Fortune Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/lucky-tree-client.git\"\n    },\n    {\n        \"siteId\": 859,\n        \"siteName\": \"SC Test Slot Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/aladdin-client.git\"\n    },\n    {\n        \"siteId\": 839,\n        \"siteName\": \"SC Wild West Most Wanted Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/wild-west-client.git\"\n    },\n    {\n        \"siteId\": 751,\n        \"siteName\": \"SC Wukongs Revenge Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/cascading-slot-client.git\"\n    },\n    {\n        \"siteId\": 161,\n        \"siteName\": \"SC1  FanTan Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 388,\n        \"siteName\": \"SC1 - SG Oddsfeed POC\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/demo/sg-oddsfeed-poc.git\"\n    },\n    {\n        \"siteId\": 247,\n        \"siteName\": \"SC1 BLACKPINK Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 113,\n        \"siteName\": \"SC1 Blockchain Baccarat Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 229,\n        \"siteName\": \"SC1 Candy Land Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 312,\n        \"siteName\": \"SC1 Chinese Blackjack Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 205,\n        \"siteName\": \"SC1 Client Base - Sedie Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-packages/game-client-base.git\"\n    },\n    {\n        \"siteId\": 662,\n        \"siteName\": \"SC1 Direct Baccarat Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-baccarat-client.git\"\n    },\n    {\n        \"siteId\": 712,\n        \"siteName\": \"SC1 Direct Big Small 55 Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-unbalanced-big-small-client.git\"\n    },\n    {\n        \"siteId\": 699,\n        \"siteName\": \"SC1 Direct Coin Toss Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-coin-toss-client.git\"\n    },\n    {\n        \"siteId\": 668,\n        \"siteName\": \"SC1 Direct Dragon Tiger Fight Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-dragon-tiger-fight-client.git\"\n    },\n    {\n        \"siteId\": 772,\n        \"siteName\": \"SC1 Direct Football Coin Toss Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-football-coin-toss-client.git\"\n    },\n    {\n        \"siteId\": 503,\n        \"siteName\": \"SC1 Direct Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-game-client.git\"\n    },\n    {\n        \"siteId\": 791,\n        \"siteName\": \"SC1 Direct Marble Football 2 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-marble-football-2.git\"\n    },\n    {\n        \"siteId\": 729,\n        \"siteName\": \"SC1 Direct RocketX client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-crash-game-v2-client.git\"\n    },\n    {\n        \"siteId\": 497,\n        \"siteName\": \"SC1 Direct Sedie Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-sedie-client.git\"\n    },\n    {\n        \"siteId\": 783,\n        \"siteName\": \"SC1 Direct Seven Up Down Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-seven-up-down-client.git\"\n    },\n    {\n        \"siteId\": 690,\n        \"siteName\": \"SC1 Direct Sicbo Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-sic-bo-client.git\"\n    },\n    {\n        \"siteId\": 706,\n        \"siteName\": \"SC1 Direct Tap Fortune Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-lucky-tree-client.git\"\n    },\n    {\n        \"siteId\": 811,\n        \"siteName\": \"SC1 Direct Turbo Big Small Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-turbo-big-small-client.git\"\n    },\n    {\n        \"siteId\": 672,\n        \"siteName\": \"SC1 Direct Vip Fish Prawn Crab Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-vip-fish-prawn-crab-client.git\"\n    },\n    {\n        \"siteId\": 555,\n        \"siteName\": \"SC1 Direct Vip Sedie Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-vip-sedie-client.git\"\n    },\n    {\n        \"siteId\": 223,\n        \"siteName\": \"SC1 DJ Club Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 331,\n        \"siteName\": \"SC1 Dragon Ball Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 352,\n        \"siteName\": \"SC1 Football Slot Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 167,\n        \"siteName\": \"SC1 Fortune Cat Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 573,\n        \"siteName\": \"SC1 Four Guardians Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 159,\n        \"siteName\": \"SC1 Fruit Slot Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 3,\n        \"siteName\": \"SC1 Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 59,\n        \"siteName\": \"SC1 Game Client Mobi\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-client-mobi.git\"\n    },\n    {\n        \"siteId\": 670,\n        \"siteName\": \"SC1 Game Client Simulator\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/research/game-service-simulator.git\"\n    },\n    {\n        \"siteId\": 112,\n        \"siteName\": \"SC1 Game Configuration Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-configuration-service.git\"\n    },\n    {\n        \"siteId\": 65,\n        \"siteName\": \"SC1 Game Guides\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-guides.git\"\n    },\n    {\n        \"siteId\": 735,\n        \"siteName\": \"SC1 God Of Fortune Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 184,\n        \"siteName\": \"SC1 Happy Fish Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 565,\n        \"siteName\": \"SC1 Heroes Legend Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 558,\n        \"siteName\": \"SC1 Instant Seven Up Down Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/seven-up-down-instant-client.git\"\n    },\n    {\n        \"siteId\": 485,\n        \"siteName\": \"SC1 Lobby Baccarat Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 202,\n        \"siteName\": \"SC1 Magic Forest Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 154,\n        \"siteName\": \"SC1 Mega Keno Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 142,\n        \"siteName\": \"SC1 Mega Keno Mobi\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-client-mobi.git\"\n    },\n    {\n        \"siteId\": 375,\n        \"siteName\": \"SC1 Mini Coin Toss Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 551,\n        \"siteName\": \"SC1 Mini Football Coin Toss Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 137,\n        \"siteName\": \"SC1 Mini Sedie Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 556,\n        \"siteName\": \"SC1 Mini Seven Up Down Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 241,\n        \"siteName\": \"SC1 Mission Impossible Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 769,\n        \"siteName\": \"SC1 Ne Zhas Rebellion Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 562,\n        \"siteName\": \"SC1 Night Club Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 766,\n        \"siteName\": \"SC1 One Day In Paradise Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 303,\n        \"siteName\": \"SC1 One Piece Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 880,\n        \"siteName\": \"SC1 Original Games Client Demo\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/original-games.git\"\n    },\n    {\n        \"siteId\": 253,\n        \"siteName\": \"SC1 Pontoon Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 765,\n        \"siteName\": \"SC1 Ramses Lost Tomb Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 822,\n        \"siteName\": \"SC1 Seal Hot League Wall Client Demo\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/sedie-client-demo.git\"\n    },\n    {\n        \"siteId\": 432,\n        \"siteName\": \"SC1 Seal Live Page Client Demo\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/sedie-client-demo.git\"\n    },\n    {\n        \"siteId\": 371,\n        \"siteName\": \"SC1 Shared Client Resources\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-shared-resources.git\"\n    },\n    {\n        \"siteId\": 717,\n        \"siteName\": \"SC1 Standalone Live Page Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/standalone-saba-games-live-page.git\"\n    },\n    {\n        \"siteId\": 784,\n        \"siteName\": \"SC1 Summer Heat Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 753,\n        \"siteName\": \"SC1 Temple Of Caishen Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 272,\n        \"siteName\": \"SC1 Transformers Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 108,\n        \"siteName\": \"SC1 Treasure Island Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 121,\n        \"siteName\": \"SC1 Unbalanced Big Small Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 114,\n        \"siteName\": \"SC1 Way To Goal Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 170,\n        \"siteName\": \"SC1 Win Three Cards Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 185,\n        \"siteName\": \"SC1-Slot-Collection-Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-resources/slot-collection.git\"\n    },\n    {\n        \"siteId\": 384,\n        \"siteName\": \"L1 Pusoy Serivce\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/pusoy-service.git\"\n    },\n    {\n        \"siteId\": 823,\n        \"siteName\": \"SC1 - Game RNG Soccer Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/rng-soccer-service.git\"\n    },\n    {\n        \"siteId\": 553,\n        \"siteName\": \"SC1 7 Up 7 Down Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/7-up-down-service.git\"\n    },\n    {\n        \"siteId\": 364,\n        \"siteName\": \"SC1 BaccaratX Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/baccarat-x-service.git\"\n    },\n    {\n        \"siteId\": 286,\n        \"siteName\": \"SC1 Bandar Qiu Qiu Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/bandar-qiu-qiu-service.git\"\n    },\n    {\n        \"siteId\": 81,\n        \"siteName\": \"SC1 Bitcoin Master Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/bitcoin-master-service.git\"\n    },\n    {\n        \"siteId\": 41,\n        \"siteName\": \"SC1 Blackjack Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/blackjack-service.git\"\n    },\n    {\n        \"siteId\": 204,\n        \"siteName\": \"SC1 Cascading Slot Game Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 314,\n        \"siteName\": \"SC1 Chinese Blackjack Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/chinese-blackjack-service.git\"\n    },\n    {\n        \"siteId\": 636,\n        \"siteName\": \"SC1 Coin Mining Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/turn-based-crash-game-service.git\"\n    },\n    {\n        \"siteId\": 363,\n        \"siteName\": \"SC1 Coin Toss Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/coin-toss-service.git\"\n    },\n    {\n        \"siteId\": 265,\n        \"siteName\": \"SC1 Color Game Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/color-game-service.git\"\n    },\n    {\n        \"siteId\": 82,\n        \"siteName\": \"SC1 Crypto Data Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/crypto-data-service.git\"\n    },\n    {\n        \"siteId\": 37,\n        \"siteName\": \"SC1 Fan Tan Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/fantan-service.git\"\n    },\n    {\n        \"siteId\": 378,\n        \"siteName\": \"SC1 Football Coin Toss Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/football-coin-toss-service.git\"\n    },\n    {\n        \"siteId\": 341,\n        \"siteName\": \"SC1 Football Dice Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/football-dice-service.git\"\n    },\n    {\n        \"siteId\": 24,\n        \"siteName\": \"SC1 Game Baccarat Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/baccarat-service.git\"\n    },\n    {\n        \"siteId\": 29,\n        \"siteName\": \"SC1 Game Big Small Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/big-small-service.git\"\n    },\n    {\n        \"siteId\": 105,\n        \"siteName\": \"SC1 Game Blockchain Baccarat Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/blockchain-baccarat-service.git\"\n    },\n    {\n        \"siteId\": 83,\n        \"siteName\": \"SC1 Game Casino Holdem Poker Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/casino-holdem-poker.git\"\n    },\n    {\n        \"siteId\": 227,\n        \"siteName\": \"SC1 Game Dragon Tiger Fight Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/dragon-tiger-fight-service.git\"\n    },\n    {\n        \"siteId\": 32,\n        \"siteName\": \"SC1 Game Dragon Tiger Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/dragon-tiger-service.git\"\n    },\n    {\n        \"siteId\": 34,\n        \"siteName\": \"SC1 Game Fish Prawn Crab Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/fish-prawn-crab-service.git\"\n    },\n    {\n        \"siteId\": 87,\n        \"siteName\": \"SC1 Game High Low Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/hilo-service.git\"\n    },\n    {\n        \"siteId\": 75,\n        \"siteName\": \"SC1 Game Keno Match Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/keno-match-service.git\"\n    },\n    {\n        \"siteId\": 78,\n        \"siteName\": \"SC1 Game Keno Power Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/keno-power-service.git\"\n    },\n    {\n        \"siteId\": 36,\n        \"siteName\": \"SC1 Game Keno Pro Max Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/keno-pro-max-service.git\"\n    },\n    {\n        \"siteId\": 17,\n        \"siteName\": \"SC1 Game Lottery Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/lottery-service.git\"\n    },\n    {\n        \"siteId\": 74,\n        \"siteName\": \"SC1 Game Mini Keno Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/mini-keno.git\"\n    },\n    {\n        \"siteId\": 833,\n        \"siteName\": \"SC1 Game Mini Roulette Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/mini-roulette-service.git\"\n    },\n    {\n        \"siteId\": 38,\n        \"siteName\": \"SC1 Game Roulette Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/roulette-service.git\"\n    },\n    {\n        \"siteId\": 13,\n        \"siteName\": \"SC1 Game Sedie Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/sedie-service.git\"\n    },\n    {\n        \"siteId\": 26,\n        \"siteName\": \"SC1 Game Sedie War Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/vip-sedie-war-service.git\"\n    },\n    {\n        \"siteId\": 405,\n        \"siteName\": \"SC1 Game Sedie3 Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/sedie3-service.git\"\n    },\n    {\n        \"siteId\": 27,\n        \"siteName\": \"SC1 Game Sicbo Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/sicbo-service.git\"\n    },\n    {\n        \"siteId\": 90,\n        \"siteName\": \"SC1 Game Texas Holdem Poker Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/texas-holdem-poker.git\"\n    },\n    {\n        \"siteId\": 39,\n        \"siteName\": \"SC1 Game Turbo Big Small Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/turbo-big-small-service.git\"\n    },\n    {\n        \"siteId\": 40,\n        \"siteName\": \"SC1 Game Turbo Odd Even Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/turbo-odd-even-service.git\"\n    },\n    {\n        \"siteId\": 22,\n        \"siteName\": \"SC1 Game Vip Sedie Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/vip-sedie-service.git\"\n    },\n    {\n        \"siteId\": 477,\n        \"siteName\": \"SC1 Kara Krus Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/kara-krus-service.git\"\n    },\n    {\n        \"siteId\": 606,\n        \"siteName\": \"SC1 Marble Football 2 Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/marble-football-2-service.git\"\n    },\n    {\n        \"siteId\": 559,\n        \"siteName\": \"SC1 Marble Football Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/marble-football-service.git\"\n    },\n    {\n        \"siteId\": 567,\n        \"siteName\": \"SC1 Marble Football Videos\",\n        \"gitUrl\": \"git@git21.lumigame.com:l1/marble-football-videos.git\"\n    },\n    {\n        \"siteId\": 643,\n        \"siteName\": \"SC1 Marble Pinball\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/marble-pinball-service.git\"\n    },\n    {\n        \"siteId\": 703,\n        \"siteName\": \"SC1 Marble Pinball Videos\",\n        \"gitUrl\": \"git@git21.lumigame.com:elias.ngo/example-videos.git\"\n    },\n    {\n        \"siteId\": 95,\n        \"siteName\": \"SC1 Notification Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/notification-service.git\"\n    },\n    {\n        \"siteId\": 271,\n        \"siteName\": \"SC1 Pontoon Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/pontoon-service.git\"\n    },\n    {\n        \"siteId\": 131,\n        \"siteName\": \"SC1 Sedie Multiplay Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/sedie-multiplay.git\"\n    },\n    {\n        \"siteId\": 830,\n        \"siteName\": \"SC1 Solo Blackjack Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/solo-blackjack-service.git\"\n    },\n    {\n        \"siteId\": 42,\n        \"siteName\": \"SC1 Special Sedie Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/special-sedie-service.git\"\n    },\n    {\n        \"siteId\": 728,\n        \"siteName\": \"SC1 Spinner Soccer Videos 2\",\n        \"gitUrl\": \"git@git21.lumigame.com:l1/spinner-soccer-2-videos.git\"\n    },\n    {\n        \"siteId\": 66,\n        \"siteName\": \"SC1 Three Cards Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/three-cards-service.git\"\n    },\n    {\n        \"siteId\": 118,\n        \"siteName\": \"SC1 Unbalanced Big Small Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/unbalanced-bigsmall-service.git\"\n    },\n    {\n        \"siteId\": 30,\n        \"siteName\": \"SC1 VIP Baccarat Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/vip-baccarat-service.git\"\n    },\n    {\n        \"siteId\": 25,\n        \"siteName\": \"SC1 VIP Fish Prawn Crab Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/vip-fish-prawn-crab-service.git\"\n    },\n    {\n        \"siteId\": 160,\n        \"siteName\": \"SC1 Win Three Cards Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/win-three-cards-service.git\"\n    },\n    {\n        \"siteId\": 110,\n        \"siteName\": \"SC1 - Old Game Server\",\n        \"gitUrl\": \"git@git3.nexdev.net:20m/server.git\"\n    },\n    {\n        \"siteId\": 190,\n        \"siteName\": \"SC1 App Download Site Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/info-site.git\"\n    },\n    {\n        \"siteId\": 188,\n        \"siteName\": \"SC1 Info Site Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/info-site.git\"\n    },\n    {\n        \"siteId\": 201,\n        \"siteName\": \"SC1 VivaDzo Policy\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-app/vivadzo-policy.git\"\n    },\n    {\n        \"siteId\": 192,\n        \"siteName\": \"TL AI\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-bots/tl-ai.git\"\n    },\n    {\n        \"siteId\": 193,\n        \"siteName\": \"TL AI Server\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-bots/tl-ai-server.git\"\n    },\n    {\n        \"siteId\": 860,\n        \"siteName\": \"SC1 Aladdins Wishes  Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 836,\n        \"siteName\": \"SC1 Aztec Princess Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 246,\n        \"siteName\": \"SC1 Black Pink Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 206,\n        \"siteName\": \"SC1 Candy Land Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 214,\n        \"siteName\": \"SC1 DJ Club Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 329,\n        \"siteName\": \"SC1 Dragon Ball Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 350,\n        \"siteName\": \"SC1 Football Slot Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/football-slot-service.git\"\n    },\n    {\n        \"siteId\": 163,\n        \"siteName\": \"SC1 Fortune Cat Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 846,\n        \"siteName\": \"SC1 Fruit Samurai Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 23,\n        \"siteName\": \"SC1 Game Four Guardians Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 138,\n        \"siteName\": \"SC1 Game Fruit Slot Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/fruit-slot-service.git\"\n    },\n    {\n        \"siteId\": 73,\n        \"siteName\": \"SC1 Game Heroes Slot Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 94,\n        \"siteName\": \"SC1 Game Night Club Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 111,\n        \"siteName\": \"SC1 Game Way To Goal Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 733,\n        \"siteName\": \"SC1 God Of Fortune Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 845,\n        \"siteName\": \"SC1 Happy Farm Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 176,\n        \"siteName\": \"SC1 Happy Fish Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 200,\n        \"siteName\": \"SC1 Magic Forest Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 812,\n        \"siteName\": \"SC1 Mahjong Wins Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 240,\n        \"siteName\": \"SC1 Mission Impossible Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 768,\n        \"siteName\": \"SC1 Ne Zhas Rebellion Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 767,\n        \"siteName\": \"SC1 One Day In Paradise Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 302,\n        \"siteName\": \"SC1 One Piece Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 787,\n        \"siteName\": \"SC1 Poseidons Realm Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 764,\n        \"siteName\": \"SC1 Ramses Lost Tomb Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 224,\n        \"siteName\": \"SC1 Slot Auto Bot\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/ui-automation-tests/autobot.git\"\n    },\n    {\n        \"siteId\": 785,\n        \"siteName\": \"SC1 Summer Heat Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 600,\n        \"siteName\": \"SC1 Tap Fortune Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/instant-win-game-service.git\"\n    },\n    {\n        \"siteId\": 752,\n        \"siteName\": \"SC1 Temple Of Caishen Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 263,\n        \"siteName\": \"SC1 Transformers Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 97,\n        \"siteName\": \"SC1 Treasure Island Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/treasure-island-service.git\"\n    },\n    {\n        \"siteId\": 723,\n        \"siteName\": \"SC1 Treasure Island Service-New\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 825,\n        \"siteName\": \"SC1 Wild West Most Wanted Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 750,\n        \"siteName\": \"SC1 Wukongs Revenge Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    \n]\n\nconst outputArray = sites.map(item => {\n  const sshUrl = item.gitUrl;\n  const httpsUrl = sshUrl\n    .replace(/^git@git3.nexdev.net:/, 'https://git3.nexdev.net/')       \n    .replace(/\\.git$/, '');             \n\n  const path = httpsUrl.replace(/^https:\\/\\/git3\\.nexdev\\.net\\//, '');\n  return { siteId: item.siteId, siteName: item.siteName , gitUrl: httpsUrl, path, pathEncode: encodeURIComponent(path) };\n});\n\n// Return as n8n items\nreturn outputArray.map(i => ({ json: i }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        780
+      ],
+      "id": "b0b0b878-59f7-4950-83c2-a74c815bb39a",
+      "name": "Get All Sites"
+    },
+    {
+      "parameters": {
+        "url": "https://deploy.lumigame.com/api/Site/GetSitesByGitRepo",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "GitRepoUrl",
+              "value": "={{ $json.gitUrl }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1100,
+        740
+      ],
+      "id": "5d7d153b-a9bf-4258-88da-07c9bf092ff6",
+      "name": "Search SiteId By Git Repo",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ZNWY08ZbBEIoMqGf",
+          "name": "Header Auth account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ce9b92e6-7ae8-4d6d-97d8-ad93e769f89c",
+              "leftValue": "={{ $json.StatusCode }}",
+              "rightValue": 200,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        660,
+        1000
+      ],
+      "id": "fbc27bb4-0e13-4985-83a6-424dde494a92",
+      "name": "Has Active Site"
+    },
+    {
+      "parameters": {
+        "fieldToSplitOut": "Sites",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.splitOut",
+      "typeVersion": 1,
+      "position": [
+        860,
+        980
+      ],
+      "id": "893ca568-0a28-466b-88e1-6ea9adbf773f",
+      "name": "Split Out"
+    },
+    {
+      "parameters": {
+        "jsCode": "// Loop over input items and add a new field called 'myNewField' to the JSON of each one\nlet services = [];\nfor (const item of $input.all()) {\n  if(item.json.Stack === $('StartupConfigs').first().json.stack)\n  {\n    item.json.Service = item.json.Service.replaceAll( /_/gi,  `-`,);\n    item.json.srcEnvironment = $('StartupConfigs').first().json.srcEnvironment;\n    item.json.desEnvironment = $('StartupConfigs').first().json.desEnvironment;\n    item.json.BranchName = $('StartupConfigs').first().json.branchName;\n    services.push(item.json);\n  }\n}\n\nreturn services;"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1020,
+        980
+      ],
+      "id": "6e0ff974-6b73-482b-8e5d-c89b8fe14258",
+      "name": "FilterAndFormat",
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "jsCode": "return {\n  stack: \"l1\",\n  branchName: \"kl-deployment\",\n  srcEnvironment: \"prod\",\n  desEnvironment: \"klprod\"\n};\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        260,
+        760
+      ],
+      "id": "2b9e83a0-3f1d-4b25-b40b-6ec8d7d0bf50",
+      "name": "StartupConfigs"
+    },
+    {
+      "parameters": {
+        "options": {
+          "reset": "={{ $node['Loop Over Items'].context[\"done\"] }}"
+        }
+      },
+      "type": "n8n-nodes-base.splitInBatches",
+      "typeVersion": 3,
+      "position": [
+        1300,
+        980
+      ],
+      "id": "0bd3de6d-ead4-4db6-9f3a-ce6a340ae9fb",
+      "name": "Loop Over Items"
+    },
+    {
+      "parameters": {
+        "url": "https://deploy.lumigame.com/api/Site/GetLastDeploymentByLocation",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "SiteId",
+              "value": "={{ $json.SiteId }}"
+            },
+            {
+              "name": "Location",
+              "value": "={{ $json.LocationName }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2100,
+        600
+      ],
+      "id": "fc9978c4-5910-4bd1-b8c2-609832cedd71",
+      "name": "Get Latest Deploy PROD",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ZNWY08ZbBEIoMqGf",
+          "name": "Header Auth account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1420,
+        340
+      ],
+      "id": "c676a9f5-103c-4ec8-b2e6-7977e3ada8d8",
+      "name": "Wait 2 seconds2",
+      "webhookId": "36ed3ea0-6e01-4ba6-a7be-9b1ab2e0128c"
+    },
+    {
+      "parameters": {
+        "amount": 2
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        1500,
+        980
+      ],
+      "id": "0ce9fac5-50fe-4355-8a00-c3d3725598e4",
+      "name": "Wait 2 seconds",
+      "webhookId": "36ed3ea0-6e01-4ba6-a7be-9b1ab2e0128c"
+    },
+    {
+      "parameters": {
+        "url": "https://deploy.lumigame.com/api/Site/GetLastDeploymentByLocation",
+        "authentication": "genericCredentialType",
+        "genericAuthType": "httpHeaderAuth",
+        "sendQuery": true,
+        "queryParameters": {
+          "parameters": [
+            {
+              "name": "SiteId",
+              "value": "={{ $json.SiteId }}"
+            },
+            {
+              "name": "Location",
+              "value": "={{ $json.LocationName }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        1760,
+        980
+      ],
+      "id": "7d9dea00-26db-4b63-a464-b0a4f69352c4",
+      "name": "Get Latest Deploy KLPROD",
+      "credentials": {
+        "httpHeaderAuth": {
+          "id": "ZNWY08ZbBEIoMqGf",
+          "name": "Header Auth account 3"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "51fc17ca-226b-4a65-93a3-479a5f2af564",
+              "name": "SiteId",
+              "value": "={{ $json.Id }}",
+              "type": "number"
+            },
+            {
+              "id": "2818b764-a1c4-4fff-a61a-e095fb2e2a37",
+              "name": "LocationName",
+              "value": "={{ $json.Stack }}-{{ $json.Service }}-{{ $json.srcEnvironment }}",
+              "type": "string"
+            },
+            {
+              "id": "06420a4d-241d-4515-95a8-5d8cf724ac64",
+              "name": "Branch",
+              "value": "={{ $json.BranchName }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1860,
+        600
+      ],
+      "id": "4e7181ae-026f-4a38-b2f8-2e61e7c7252d",
+      "name": "Get Params PROD Location"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "51fc17ca-226b-4a65-93a3-479a5f2af564",
+              "name": "SiteId",
+              "value": "={{ $('Loop Over Items').item.json.Id }}",
+              "type": "number"
+            },
+            {
+              "id": "2818b764-a1c4-4fff-a61a-e095fb2e2a37",
+              "name": "LocationName",
+              "value": "={{ $('Loop Over Items').item.json.Stack }}-{{ $('Loop Over Items').item.json.Service }}-{{ $('Loop Over Items').item.json.desEnvironment }}",
+              "type": "string"
+            },
+            {
+              "id": "06420a4d-241d-4515-95a8-5d8cf724ac64",
+              "name": "Branch",
+              "value": "={{ $json.BranchName }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        1640,
+        980
+      ],
+      "id": "b5646b96-15f2-41a6-b927-ce0744cfd07c",
+      "name": "Get Params KLPROD Location"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "51fc17ca-226b-4a65-93a3-479a5f2af564",
+              "name": "ProdCommitHash",
+              "value": "={{ $('Get Latest Deploy PROD').item.json.Commit.CommitHash }}",
+              "type": "string"
+            },
+            {
+              "id": "2818b764-a1c4-4fff-a61a-e095fb2e2a37",
+              "name": "KLProdCommitHash",
+              "value": "={{ $('Get Latest Deploy KLPROD').item.json.Commit.CommitHash }}",
+              "type": "string"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.4,
+      "position": [
+        2120,
+        860
+      ],
+      "id": "2aa6b34d-b2d8-42a0-8bbc-22917c471c97",
+      "name": "Get Commit Hash"
+    },
+    {
+      "parameters": {
+        "jsCode": "const commits = $input.first().json.body.commits || [];\n\nreturn [\n  {\n    json: {\n      rebased: commits.length === 0,\n      commitsDiff: commits.map(c => ({ id: c.id, title: c.title }))\n    }\n  }\n];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        2640,
+        980
+      ],
+      "id": "9e73cdea-61e6-4dc2-ae66-98f53185dcd7",
+      "name": "Compare Rebase Commits"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ce9b92e6-7ae8-4d6d-97d8-ad93e769f89c",
+              "leftValue": "={{ $json.StatusCode }}",
+              "rightValue": 200,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2300,
+        600
+      ],
+      "id": "421b9c67-3906-488a-ac88-651957086471",
+      "name": "Check Has Deploy PROD yet?"
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ce9b92e6-7ae8-4d6d-97d8-ad93e769f89c",
+              "leftValue": "={{ $json.StatusCode }}",
+              "rightValue": 200,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1940,
+        980
+      ],
+      "id": "2616c963-eb71-400c-8124-ec9031834a4d",
+      "name": "Check Has Deploy KLPROD yet?"
+    },
+    {
+      "parameters": {
+        "functionCode": "const data = this.getWorkflowStaticData('global');\n\n// Khởi tạo nếu chưa có\nif (!data.accumulator) {\n  data.accumulator = { results: [] };\n}\n\n// Append data\nconst result = {\n  site: $('Get Sites Detail').item.json,\n  status: 'Rebased'\n};\n\ndata.accumulator.results.push(result);\n\nreturn result;"
+      },
+      "id": "207fbef1-c84c-4617-938a-13bf0074c29c",
+      "name": "Append Results",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        2800,
+        980
+      ]
+    },
+    {
+      "parameters": {
+        "functionCode": "const data = this.getWorkflowStaticData('global');\n\n// Khởi tạo nếu chưa có\nif (!data.accumulator) {\n  data.accumulator = { results: [] };\n}\n\n// Append data\nconst result = {\n site: $('Get Sites Detail').item.json,\n  status: 'not yet deployed KLPROD'\n};\n\ndata.accumulator.results.push(result);\n\nreturn result;"
+      },
+      "id": "4556c9ad-6ff4-4d60-9580-877969ab9644",
+      "name": "Append Results1",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        2080,
+        1220
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "\nreturn [{ json: $input.first().json }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        940,
+        740
+      ],
+      "id": "3a60d8db-fc37-4fc9-b5d6-2afb6466ccd5",
+      "name": "Get Sites"
+    },
+    {
+      "parameters": {
+        "amount": 1
+      },
+      "type": "n8n-nodes-base.wait",
+      "typeVersion": 1.1,
+      "position": [
+        800,
+        740
+      ],
+      "id": "5f1bbe50-f838-4fec-99e3-c2efdcfc4494",
+      "name": "Wait 2 seconds3",
+      "webhookId": "36ed3ea0-6e01-4ba6-a7be-9b1ab2e0128c"
+    },
+    {
+      "parameters": {
+        "jsCode": "\n$input.last().json.site = $('Get Sites').last().json;\n\nreturn [{ json: $input.last().json }];\n"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        1480,
+        620
+      ],
+      "id": "6a224259-f8b4-4d5d-b430-ca02b6728cf1",
+      "name": "Get Sites Detail"
+    },
+    {
+      "parameters": {
+        "functionCode": "const data = this.getWorkflowStaticData('global');\n\n// Khởi tạo nếu chưa có\nif (!data.accumulator) {\n  data.accumulator = { results: [] };\n}\n\n// Append data\nconst result = {\n site: $('Get Sites Detail').item.json,\n  status: 'not yet deployed PROD'\n};\n\ndata.accumulator.results.push(result);\n\nreturn result;"
+      },
+      "id": "b4d4eb24-e5ef-4418-9c3c-f7484cf60058",
+      "name": "Append Results2",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        2540,
+        600
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ce9b92e6-7ae8-4d6d-97d8-ad93e769f89c",
+              "leftValue": "={{ $json.Id === $json.site.siteId }}",
+              "rightValue": 200,
+              "operator": {
+                "type": "boolean",
+                "operation": "true",
+                "singleValue": true
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        1640,
+        620
+      ],
+      "id": "744e6992-fe79-4758-9ecb-604988f38512",
+      "name": "Check Correct Current Site"
+    },
+    {
+      "parameters": {
+        "functionCode": "const data = this.getWorkflowStaticData('global');\n\ndata.accumulator = { results: [] };\n\nreturn [];"
+      },
+      "id": "3ca94ce8-f197-438c-a7f7-d4bcf4fd7283",
+      "name": "Append Results3",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        100,
+        760
+      ],
+      "alwaysOutputData": true
+    },
+    {
+      "parameters": {
+        "functionCode": "const data = this.getWorkflowStaticData('global');\nreturn [{ json: data.accumulator.results || {} }];"
+      },
+      "id": "ac149c84-0659-403f-af0f-7613e879953d",
+      "name": "Get Current Object",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        1660,
+        340
+      ]
+    },
+    {
+      "parameters": {
+        "jsCode": "let sites = [\n    \n    \n    {\n        \"siteId\": 101,\n        \"siteName\": \"SC2 Admin  Monitoring Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/game-admin-monitoring.git\"\n    },\n    {\n        \"siteId\": 15,\n        \"siteName\": \"SC2 Admin API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-admin.git\"\n    },\n    {\n        \"siteId\": 804,\n        \"siteName\": \"SC2 Admin Promotion Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/admin-promotion-site.git\"\n    },\n    {\n        \"siteId\": 16,\n        \"siteName\": \"SC2 Admin Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-admin.git\"\n    },\n    {\n        \"siteId\": 742,\n        \"siteName\": \"SC2 Api Event Consumer Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/api-event-consumer.git\"\n    },\n    {\n        \"siteId\": 19,\n        \"siteName\": \"SC2 Auth API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/api.git\"\n    },\n    {\n        \"siteId\": 20,\n        \"siteName\": \"SC2 Game API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/api.git\"\n    },\n    {\n        \"siteId\": 294,\n        \"siteName\": \"SC2 Game History Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-round-result.git\"\n    },\n    {\n        \"siteId\": 47,\n        \"siteName\": \"SC2 Game Lobby Simulator\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/api-simulators.git\"\n    },\n    {\n        \"siteId\": 311,\n        \"siteName\": \"SC2 Game Management Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/game-management-service.git\"\n    },\n    {\n        \"siteId\": 805,\n        \"siteName\": \"SC2 Game Promotion API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/game-promotion-api.git\"\n    },\n    {\n        \"siteId\": 71,\n        \"siteName\": \"SC2 Game Round Result\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-round-result.git\"\n    },\n    {\n        \"siteId\": 46,\n        \"siteName\": \"SC2 OW API Simulator\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/operator-simulators.git\"\n    },\n    {\n        \"siteId\": 98,\n        \"siteName\": \"SC2 SG Api\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/sg-api.git\"\n    },\n    {\n        \"siteId\": 60,\n        \"siteName\": \"SC2 User Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/user-service.git\"\n    },\n    {\n        \"siteId\": 605,\n        \"siteName\": \"VG Live Page Gateway\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/livepage-socket-gateway.git\"\n    },\n    {\n        \"siteId\": 604,\n        \"siteName\": \"VG Livepage User Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/user-service.git\"\n    },\n    {\n        \"siteId\": 759,\n        \"siteName\": \"VG2 Admin Logs API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/api-logs-query.git\"\n    },\n    {\n        \"siteId\": 776,\n        \"siteName\": \"VG2 Admin Statement API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/statement-api.git\"\n    },\n    {\n        \"siteId\": 393,\n        \"siteName\": \"VG2 Promotion Job\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/promotion-site.git\"\n    },\n    {\n        \"siteId\": 385,\n        \"siteName\": \"VG2 Promotion Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/promotion-site.git\"\n    },\n    {\n        \"siteId\": 172,\n        \"siteName\": \"SC2  FanTan Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 252,\n        \"siteName\": \"SC2 BLACKPINK Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 258,\n        \"siteName\": \"SC2 Candy Land Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 231,\n        \"siteName\": \"SC2 DJ Club Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 332,\n        \"siteName\": \"SC2 Dragon Ball Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 175,\n        \"siteName\": \"SC2 Fortune Cat Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 62,\n        \"siteName\": \"SC2 Game Client Mobi\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-client-mobi.git\"\n    },\n    {\n        \"siteId\": 659,\n        \"siteName\": \"SC2 Game Client Mobi Demo\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-client-mobi.git\"\n    },\n    {\n        \"siteId\": 69,\n        \"siteName\": \"SC2 Game Guides\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-guides.git\"\n    },\n    {\n        \"siteId\": 744,\n        \"siteName\": \"SC2 God Of Fortune Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 191,\n        \"siteName\": \"SC2 Happy Fish Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 220,\n        \"siteName\": \"SC2 Happy Fish Jackpot Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-client.git\"\n    },\n    {\n        \"siteId\": 557,\n        \"siteName\": \"SC2 Instant Seven Up Down Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/seven-up-down-instant-client.git\"\n    },\n    {\n        \"siteId\": 212,\n        \"siteName\": \"SC2 Magic Forest Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 746,\n        \"siteName\": \"SC2 Marble Football 2 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/marble-football-2-client.git\"\n    },\n    {\n        \"siteId\": 602,\n        \"siteName\": \"SC2 Marble Football Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/marble-football-client.git\"\n    },\n    {\n        \"siteId\": 242,\n        \"siteName\": \"SC2 Mission Impossible Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 771,\n        \"siteName\": \"SC2 Ne Zhas Rebellion Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 802,\n        \"siteName\": \"SC2 One Day In Paradise Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 305,\n        \"siteName\": \"SC2 One Piece Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 789,\n        \"siteName\": \"SC2 Ramses Lost Tomb Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 817,\n        \"siteName\": \"SC2 Seal Hot League Wall Client Demo\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/sedie-client-demo.git\"\n    },\n    {\n        \"siteId\": 732,\n        \"siteName\": \"SC2 Seal Live Page Client Demo\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/sedie-client-demo.git\"\n    },\n    {\n        \"siteId\": 676,\n        \"siteName\": \"SC2 Sedie Client Demo\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/sedie-client-demo.git\"\n    },\n    {\n        \"siteId\": 511,\n        \"siteName\": \"SC2 Shared Client Resources\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-shared-resources.git\"\n    },\n    {\n        \"siteId\": 794,\n        \"siteName\": \"SC2 Summer Heat Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 875,\n        \"siteName\": \"SC2 Summer Heat V3 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/standard-classic-slot.git\"\n    },\n    {\n        \"siteId\": 754,\n        \"siteName\": \"SC2 Temple Of Caishen Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 266,\n        \"siteName\": \"SC2 Transformers Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 284,\n        \"siteName\": \"VG - Bandar Qiu Qiu Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/bandar-qiu-qiu-client.git\"\n    },\n    {\n        \"siteId\": 278,\n        \"siteName\": \"VG - Color Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/color-game-client.git\"\n    },\n    {\n        \"siteId\": 243,\n        \"siteName\": \"VG - Dragon Tiger Fight Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/dragon-tiger-fight-client.git\"\n    },\n    {\n        \"siteId\": 369,\n        \"siteName\": \"VG - Instant Coin Toss Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/coin-toss-instant-client.git\"\n    },\n    {\n        \"siteId\": 279,\n        \"siteName\": \"VG - Instant Color Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/color-game-client.git\"\n    },\n    {\n        \"siteId\": 383,\n        \"siteName\": \"VG - Instant Football Coin Toss Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/football-coin-toss-instant-client.git\"\n    },\n    {\n        \"siteId\": 851,\n        \"siteName\": \"VG - Lang Live Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 507,\n        \"siteName\": \"VG - Pusoy Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/pusoy-client2.git\"\n    },\n    {\n        \"siteId\": 863,\n        \"siteName\": \"VG Aladdins Wishes Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/aladdin-client.git\"\n    },\n    {\n        \"siteId\": 832,\n        \"siteName\": \"VG Aztec Princess Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/aztec-warrior-princess.git\"\n    },\n    {\n        \"siteId\": 549,\n        \"siteName\": \"VG Bac100 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 550,\n        \"siteName\": \"VG Bac101 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 386,\n        \"siteName\": \"VG Bac81 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 535,\n        \"siteName\": \"VG Bac82 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 537,\n        \"siteName\": \"VG Bac83 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 538,\n        \"siteName\": \"VG Bac84 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 539,\n        \"siteName\": \"VG Bac85 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 540,\n        \"siteName\": \"VG Bac86 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 541,\n        \"siteName\": \"VG Bac87 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 542,\n        \"siteName\": \"VG Bac88 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 543,\n        \"siteName\": \"VG Bac89 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 544,\n        \"siteName\": \"VG Bac90 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 545,\n        \"siteName\": \"VG Bac91 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 546,\n        \"siteName\": \"VG Bac92 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 547,\n        \"siteName\": \"VG Bac97 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 548,\n        \"siteName\": \"VG Bac98 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 596,\n        \"siteName\": \"VG Christmas Crash Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/christmas-crash-client.git\"\n    },\n    {\n        \"siteId\": 696,\n        \"siteName\": \"VG Crypto Mining Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/coin-mining-client.git\"\n    },\n    {\n        \"siteId\": 571,\n        \"siteName\": \"VG Four Guardians Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 872,\n        \"siteName\": \"VG Fruit Samurai Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/fruit-samurai.git\"\n    },\n    {\n        \"siteId\": 686,\n        \"siteName\": \"VG Game Client Simulator\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/research/game-service-simulator.git\"\n    },\n    {\n        \"siteId\": 857,\n        \"siteName\": \"VG Happy Farm Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/happy-farm.git\"\n    },\n    {\n        \"siteId\": 566,\n        \"siteName\": \"VG Heroes Legend Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 820,\n        \"siteName\": \"VG Instant Game V2 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/instant-game-client.git\"\n    },\n    {\n        \"siteId\": 821,\n        \"siteName\": \"VG Instant Lobby Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-game-client.git\"\n    },\n    {\n        \"siteId\": 481,\n        \"siteName\": \"VG Karakrus Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/kara-krus-client.git\"\n    },\n    {\n        \"siteId\": 534,\n        \"siteName\": \"VG Lobby Baccarat Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 827,\n        \"siteName\": \"VG Mahjong Wins Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/mahjong-wins-client.git\"\n    },\n    {\n        \"siteId\": 376,\n        \"siteName\": \"VG Mini Coin Toss Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 531,\n        \"siteName\": \"VG Mini Football Coin Toss Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 561,\n        \"siteName\": \"VG Mini Seven Up Down Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 563,\n        \"siteName\": \"VG Night Club Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 818,\n        \"siteName\": \"VG Poseidons Realm Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/poseidons-realm-client.git\"\n    },\n    {\n        \"siteId\": 758,\n        \"siteName\": \"VG RocketX Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-crash-game-v2-client.git\"\n    },\n    {\n        \"siteId\": 417,\n        \"siteName\": \"VG Sedie3 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/sedie-3-client.git\"\n    },\n    {\n        \"siteId\": 824,\n        \"siteName\": \"VG Slot V3 - Four Guardians Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/standard-classic-slot.git\"\n    },\n    {\n        \"siteId\": 307,\n        \"siteName\": \"VG Spaceflight Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/space-flight-client.git\"\n    },\n    {\n        \"siteId\": 626,\n        \"siteName\": \"VG Tap Fortune Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/lucky-tree-client.git\"\n    },\n    {\n        \"siteId\": 866,\n        \"siteName\": \"VG Wild West Most Wanted Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/wild-west-client.git\"\n    },\n    {\n        \"siteId\": 780,\n        \"siteName\": \"VG Wukongs Revenge Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/cascading-slot-client.git\"\n    },\n    {\n        \"siteId\": 109,\n        \"siteName\": \"VG2 - Game Client New CI\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 129,\n        \"siteName\": \"VG2 Blockchain Baccarat Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 315,\n        \"siteName\": \"VG2 Chinese Blackjack Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 801,\n        \"siteName\": \"VG2 Direct Bac81 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-lucky-baccarat-client.git\"\n    },\n    {\n        \"siteId\": 671,\n        \"siteName\": \"VG2 Direct Baccarat Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-baccarat-client.git\"\n    },\n    {\n        \"siteId\": 691,\n        \"siteName\": \"VG2 Direct Dragon Tiger Fight Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-dragon-tiger-fight-client.git\"\n    },\n    {\n        \"siteId\": 779,\n        \"siteName\": \"VG2 Direct Football Coin Toss Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-football-coin-toss-client.git\"\n    },\n    {\n        \"siteId\": 644,\n        \"siteName\": \"VG2 Direct Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-game-client.git\"\n    },\n    {\n        \"siteId\": 792,\n        \"siteName\": \"VG2 Direct Marble Football 2 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-marble-football-2.git\"\n    },\n    {\n        \"siteId\": 734,\n        \"siteName\": \"VG2 Direct RocketX Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-crash-game-v2-client.git\"\n    },\n    {\n        \"siteId\": 646,\n        \"siteName\": \"VG2 Direct Sedie Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-sedie-client.git\"\n    },\n    {\n        \"siteId\": 808,\n        \"siteName\": \"VG2 Direct Seven Up Down Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-seven-up-down-client.git\"\n    },\n    {\n        \"siteId\": 718,\n        \"siteName\": \"VG2 Direct Sicbo Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-sic-bo-client.git\"\n    },\n    {\n        \"siteId\": 714,\n        \"siteName\": \"VG2 Direct Tap Fortune Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-lucky-tree-client.git\"\n    },\n    {\n        \"siteId\": 814,\n        \"siteName\": \"VG2 Direct Turbo Big Small Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-turbo-big-small-client.git\"\n    },\n    {\n        \"siteId\": 719,\n        \"siteName\": \"VG2 Direct Unbalance Big Small Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-unbalanced-big-small-client.git\"\n    },\n    {\n        \"siteId\": 698,\n        \"siteName\": \"VG2 Direct Vip Fish Prawn Crab Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-vip-fish-prawn-crab-client.git\"\n    },\n    {\n        \"siteId\": 692,\n        \"siteName\": \"VG2 Direct Vip Sedie Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-vip-sedie-client.git\"\n    },\n    {\n        \"siteId\": 351,\n        \"siteName\": \"VG2 Football Dice Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/football-dice-client.git\"\n    },\n    {\n        \"siteId\": 358,\n        \"siteName\": \"VG2 Football Slot Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 168,\n        \"siteName\": \"VG2 Fruit Slot Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 144,\n        \"siteName\": \"VG2 Game Configuration Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-configuration-service.git\"\n    },\n    {\n        \"siteId\": 166,\n        \"siteName\": \"VG2 Mega Keno Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 155,\n        \"siteName\": \"VG2 Mega Keno Mobi\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-client-mobi.git\"\n    },\n    {\n        \"siteId\": 153,\n        \"siteName\": \"VG2 Mini Sedie Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 215,\n        \"siteName\": \"VG2 Pontoon Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 835,\n        \"siteName\": \"VG2 Standalone Live Page Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/standalone-saba-games-live-page.git\"\n    },\n    {\n        \"siteId\": 115,\n        \"siteName\": \"VG2 Treasure Island Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 143,\n        \"siteName\": \"VG2 Unbalanced Big Small Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 145,\n        \"siteName\": \"VG2 Way To Goal Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 180,\n        \"siteName\": \"VG2 Win Three Cards Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 738,\n        \"siteName\": \"SC2 - Game RNG Soccer Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/rng-soccer-service.git\"\n    },\n    {\n        \"siteId\": 560,\n        \"siteName\": \"SC2 7 Up 7 Down Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/7-up-down-service.git\"\n    },\n    {\n        \"siteId\": 387,\n        \"siteName\": \"SC2 BaccaratX Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/baccarat-x-service.git\"\n    },\n    {\n        \"siteId\": 697,\n        \"siteName\": \"SC2 Coin Mining Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/turn-based-crash-game-service.git\"\n    },\n    {\n        \"siteId\": 370,\n        \"siteName\": \"SC2 Coin Toss Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/coin-toss-service.git\"\n    },\n    {\n        \"siteId\": 277,\n        \"siteName\": \"SC2 Color Game Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/color-game-service.git\"\n    },\n    {\n        \"siteId\": 267,\n        \"siteName\": \"SC2 Connection Auto Test Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-running-checker-service.git\"\n    },\n    {\n        \"siteId\": 89,\n        \"siteName\": \"SC2 Crypto Data Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/crypto-data-service.git\"\n    },\n    {\n        \"siteId\": 230,\n        \"siteName\": \"SC2 DJ Club Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 158,\n        \"siteName\": \"SC2 Fan Tan Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/fantan-service.git\"\n    },\n    {\n        \"siteId\": 382,\n        \"siteName\": \"SC2 Football Coin Toss Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/football-coin-toss-service.git\"\n    },\n    {\n        \"siteId\": 164,\n        \"siteName\": \"SC2 Fortune Cat Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 50,\n        \"siteName\": \"SC2 Game Big Small Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/big-small-service.git\"\n    },\n    {\n        \"siteId\": 99,\n        \"siteName\": \"SC2 Game High Low Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/hilo-service.git\"\n    },\n    {\n        \"siteId\": 85,\n        \"siteName\": \"SC2 Game Keno Match Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/keno-match-service.git\"\n    },\n    {\n        \"siteId\": 84,\n        \"siteName\": \"SC2 Game Keno Power Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/keno-power-service.git\"\n    },\n    {\n        \"siteId\": 53,\n        \"siteName\": \"SC2 Game Keno Pro Max Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/keno-pro-max-service.git\"\n    },\n    {\n        \"siteId\": 76,\n        \"siteName\": \"SC2 Game Mini Keno Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/mini-keno.git\"\n    },\n    {\n        \"siteId\": 106,\n        \"siteName\": \"SC2 Game Night Club Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 18,\n        \"siteName\": \"SC2 Game Sedie Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/sedie-service.git\"\n    },\n    {\n        \"siteId\": 414,\n        \"siteName\": \"SC2 Game Sedie3 Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/sedie3-service.git\"\n    },\n    {\n        \"siteId\": 21,\n        \"siteName\": \"SC2 Game Server\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/vg2/game-services/game-server.git\"\n    },\n    {\n        \"siteId\": 56,\n        \"siteName\": \"SC2 Game Turbo Big Small Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/turbo-big-small-service.git\"\n    },\n    {\n        \"siteId\": 44,\n        \"siteName\": \"SC2 Game Vip Sedie Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/vip-sedie-service.git\"\n    },\n    {\n        \"siteId\": 177,\n        \"siteName\": \"SC2 Happy Fish Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 491,\n        \"siteName\": \"SC2 Kara Krus Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/kara-krus-service.git\"\n    },\n    {\n        \"siteId\": 213,\n        \"siteName\": \"SC2 Magic Forest Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 726,\n        \"siteName\": \"SC2 Marble Football 2 Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/marble-football-2-service.git\"\n    },\n    {\n        \"siteId\": 601,\n        \"siteName\": \"SC2 Marble Football Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/marble-football-service.git\"\n    },\n    {\n        \"siteId\": 245,\n        \"siteName\": \"SC2 Mission Impossible Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 770,\n        \"siteName\": \"SC2 Ne Zhas Rebellion Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 96,\n        \"siteName\": \"SC2 Notification Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/notification-service.git\"\n    },\n    {\n        \"siteId\": 304,\n        \"siteName\": \"SC2 One Piece Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 280,\n        \"siteName\": \"SC2 Pontoon Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/pontoon-service.git\"\n    },\n    {\n        \"siteId\": 736,\n        \"siteName\": \"SC2 RocketX Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/two-hands-crash-game-service.git\"\n    },\n    {\n        \"siteId\": 268,\n        \"siteName\": \"SC2 Round Watcher Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/round-watcher-service.git\"\n    },\n    {\n        \"siteId\": 249,\n        \"siteName\": \"SC2 RTP Checker Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/rtp-checker-service.git\"\n    },\n    {\n        \"siteId\": 152,\n        \"siteName\": \"SC2 Sedie Multiplay Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/sedie-multiplay.git\"\n    },\n    {\n        \"siteId\": 237,\n        \"siteName\": \"SC2 Slot Auto Bot\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/ui-automation-tests/autobot.git\"\n    },\n    {\n        \"siteId\": 77,\n        \"siteName\": \"SC2 Socket Gateway\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/socket-gateway.git\"\n    },\n    {\n        \"siteId\": 306,\n        \"siteName\": \"SC2 Spaceflight Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/crash-game-service.git\"\n    },\n    {\n        \"siteId\": 796,\n        \"siteName\": \"SC2 Summer Heat Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 755,\n        \"siteName\": \"SC2 Temple Of Caishen Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 67,\n        \"siteName\": \"SC2 Three Cards Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/three-cards-service.git\"\n    },\n    {\n        \"siteId\": 737,\n        \"siteName\": \"SC2 Top Win Stats Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/top-win-stats-service.git\"\n    },\n    {\n        \"siteId\": 117,\n        \"siteName\": \"SC2 Treasure Island Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/treasure-island-service.git\"\n    },\n    {\n        \"siteId\": 140,\n        \"siteName\": \"SC2 Unbalanced Big Small Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/unbalanced-bigsmall-service.git\"\n    },\n    {\n        \"siteId\": 136,\n        \"siteName\": \"SC2 Way To Goal Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 244,\n        \"siteName\": \"VG - Game Dragon Tiger Fight Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/dragon-tiger-fight-service.git\"\n    },\n    {\n        \"siteId\": 862,\n        \"siteName\": \"VG Aladdins Wishes Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 876,\n        \"siteName\": \"VG Aztec Princess Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 288,\n        \"siteName\": \"VG Bandar Qiu Qiu Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/bandar-qiu-qiu-service.git\"\n    },\n    {\n        \"siteId\": 251,\n        \"siteName\": \"VG Black Pink Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 257,\n        \"siteName\": \"VG Candy Land Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 330,\n        \"siteName\": \"VG Dragon Ball Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 856,\n        \"siteName\": \"VG Fruit Samurai Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 745,\n        \"siteName\": \"VG God Of Fortune Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 855,\n        \"siteName\": \"VG Happy Farm Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 813,\n        \"siteName\": \"VG Mahjong Wins Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 803,\n        \"siteName\": \"VG One Day In Paradise Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 819,\n        \"siteName\": \"VG Poseidons Realm Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 506,\n        \"siteName\": \"VG Pusoy Serivce\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/pusoy-service.git\"\n    },\n    {\n        \"siteId\": 790,\n        \"siteName\": \"VG Ramses Lost Tomb Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 713,\n        \"siteName\": \"VG Standalone Games\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/standalone-games.git\"\n    },\n    {\n        \"siteId\": 627,\n        \"siteName\": \"VG Tap Fortune Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/instant-win-game-service.git\"\n    },\n    {\n        \"siteId\": 834,\n        \"siteName\": \"VG Wild West Most Wanted Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 781,\n        \"siteName\": \"VG Wukongs Revenge Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 598,\n        \"siteName\": \"VG2 Christmas Crash\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/crash-game-service.git\"\n    },\n    {\n        \"siteId\": 353,\n        \"siteName\": \"VG2 Football Dice Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/football-dice-service.git\"\n    },\n    {\n        \"siteId\": 359,\n        \"siteName\": \"VG2 Football Slot Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/football-slot-service.git\"\n    },\n    {\n        \"siteId\": 49,\n        \"siteName\": \"VG2 Game Baccarat Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/baccarat-service.git\"\n    },\n    {\n        \"siteId\": 88,\n        \"siteName\": \"VG2 Game Bitcoin Master Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/bitcoin-master-service.git\"\n    },\n    {\n        \"siteId\": 43,\n        \"siteName\": \"VG2 Game Blackjack Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/blackjack-service.git\"\n    },\n    {\n        \"siteId\": 119,\n        \"siteName\": \"VG2 Game Blockchain Baccarat Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/blockchain-baccarat-service.git\"\n    },\n    {\n        \"siteId\": 91,\n        \"siteName\": \"VG2 Game Casino Holdem Poker Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/casino-holdem-poker.git\"\n    },\n    {\n        \"siteId\": 338,\n        \"siteName\": \"VG2 Game Chinese Blackjack Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/chinese-blackjack-service.git\"\n    },\n    {\n        \"siteId\": 51,\n        \"siteName\": \"VG2 Game Dragon Tiger Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/dragon-tiger-service.git\"\n    },\n    {\n        \"siteId\": 52,\n        \"siteName\": \"VG2 Game Fish Prawn Crab Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/fish-prawn-crab-service.git\"\n    },\n    {\n        \"siteId\": 33,\n        \"siteName\": \"VG2 Game Four Guardians Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 169,\n        \"siteName\": \"VG2 Game Fruit Slot Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/fruit-slot-service.git\"\n    },\n    {\n        \"siteId\": 80,\n        \"siteName\": \"VG2 Game Heroes Slot Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 63,\n        \"siteName\": \"VG2 Game Lottery Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/lottery-service.git\"\n    },\n    {\n        \"siteId\": 79,\n        \"siteName\": \"VG2 Game Lucky Wheel Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/lucky-wheel-service.git\"\n    },\n    {\n        \"siteId\": 837,\n        \"siteName\": \"VG2 Game Mini Roulette Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/mini-roulette-service.git\"\n    },\n    {\n        \"siteId\": 55,\n        \"siteName\": \"VG2 Game Roulette Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/roulette-service.git\"\n    },\n    {\n        \"siteId\": 31,\n        \"siteName\": \"VG2 Game Sedie War Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/vip-sedie-war-service.git\"\n    },\n    {\n        \"siteId\": 35,\n        \"siteName\": \"VG2 Game Sicbo Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/sicbo-service.git\"\n    },\n    {\n        \"siteId\": 45,\n        \"siteName\": \"VG2 Game Special Sedie Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/special-sedie-service.git\"\n    },\n    {\n        \"siteId\": 100,\n        \"siteName\": \"VG2 Game Texas Holdem Poker Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/texas-holdem-poker.git\"\n    },\n    {\n        \"siteId\": 57,\n        \"siteName\": \"VG2 Game Turbo Odd Even Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/turbo-odd-even-service.git\"\n    },\n    {\n        \"siteId\": 48,\n        \"siteName\": \"VG2 Game VIP Baccarat Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/vip-baccarat-service.git\"\n    },\n    {\n        \"siteId\": 61,\n        \"siteName\": \"VG2 Game VIP Fish Prawn Crab Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/vip-fish-prawn-crab-service.git\"\n    },\n    {\n        \"siteId\": 264,\n        \"siteName\": \"VG2 Transformers Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 181,\n        \"siteName\": \"VG2 Win Three Cards Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/win-three-cards-service.git\"\n    },\n    {\n        \"siteId\": 844,\n        \"siteName\": \"VG - Lang Live Simulator\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/demo/lang-live-simulator.git\"\n    },\n    {\n        \"siteId\": 208,\n        \"siteName\": \"VG2 Info Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/info-site.git\"\n    }\n]\n\nconst outputArray = sites.map(item => {\n  const sshUrl = item.gitUrl;\n  const httpsUrl = sshUrl\n    .replace(/^git@git3.nexdev.net:/, 'https://git3.nexdev.net/')       \n    .replace(/\\.git$/, '');             \n\n  const path = httpsUrl.replace(/^https:\\/\\/git3\\.nexdev\\.net\\//, '');\n  return { siteId: item.siteId, siteName: item.siteName , gitUrl: httpsUrl, path, pathEncode: encodeURIComponent(path) };\n});\n\n// Return as n8n items\nreturn outputArray.map(i => ({ json: i }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        280,
+        260
+      ],
+      "id": "62e6cd34-85fd-4696-975a-a5dc090c0ddf",
+      "name": "Get All Sites - VG"
+    },
+    {
+      "parameters": {
+        "jsCode": "let sites = [\n    {\n        \"siteId\": 156,\n        \"siteName\": \"CI Notification Bot\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/ci-notification-bot.git\"\n    },\n    {\n        \"siteId\": 150,\n        \"siteName\": \"SC1 - Automation Test Notification Bot\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/ui-automation-tests/automation-test-notification-bot.git\"\n    },\n    {\n        \"siteId\": 239,\n        \"siteName\": \"SC1 Connection Auto Test Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-running-checker-service.git\"\n    },\n    {\n        \"siteId\": 256,\n        \"siteName\": \"SC1 Round Watcher Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/round-watcher-service.git\"\n    },\n    {\n        \"siteId\": 238,\n        \"siteName\": \"SC1 RTP Checker Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/rtp-checker-service.git\"\n    },\n    {\n        \"siteId\": 232,\n        \"siteName\": \"SC1 Tolgee Auto\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/tolgee-auto.git\"\n    },\n    {\n        \"siteId\": 730,\n        \"siteName\": \"SC1 Top Win Stats Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/top-win-stats-service.git\"\n    },\n    {\n        \"siteId\": 599,\n        \"siteName\": \"SG/VG - Maintenance Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/maintenance-tools/maintenance-site.git\"\n    },\n    {\n        \"siteId\": 86,\n        \"siteName\": \"Exchange Rate Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:pentagon/exchange-rate-service.git\"\n    },\n    {\n        \"siteId\": 372,\n        \"siteName\": \"SC1 - Socket Monitor\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/monitoring/socket-monitor-service.git\"\n    },\n    {\n        \"siteId\": 93,\n        \"siteName\": \"SC1 Admin  Monitoring Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/game-admin-monitoring.git\"\n    },\n    {\n        \"siteId\": 8,\n        \"siteName\": \"SC1 Admin API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-admin.git\"\n    },\n    {\n        \"siteId\": 651,\n        \"siteName\": \"SC1 Admin Game Performance\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/game-performance-monitoring.git\"\n    },\n    {\n        \"siteId\": 740,\n        \"siteName\": \"SC1 Admin Logs API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/api-logs-query.git\"\n    },\n    {\n        \"siteId\": 747,\n        \"siteName\": \"SC1 Admin Logs API Swagger\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/api-logs-query.git\"\n    },\n    {\n        \"siteId\": 778,\n        \"siteName\": \"SC1 Admin Promotion Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/admin-promotion-site.git\"\n    },\n    {\n        \"siteId\": 7,\n        \"siteName\": \"SC1 Admin Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-admin.git\"\n    },\n    {\n        \"siteId\": 663,\n        \"siteName\": \"SC1 Admin Statement API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/statement-api.git\"\n    },\n    {\n        \"siteId\": 739,\n        \"siteName\": \"SC1 Api Event Consumer Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/api-event-consumer.git\"\n    },\n    {\n        \"siteId\": 6,\n        \"siteName\": \"SC1 Auth API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/api.git\"\n    },\n    {\n        \"siteId\": 5,\n        \"siteName\": \"SC1 Game API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/api.git\"\n    },\n    {\n        \"siteId\": 724,\n        \"siteName\": \"SC1 Game API-Cloned\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/api.git\"\n    },\n    {\n        \"siteId\": 11,\n        \"siteName\": \"SC1 Game Lobby Simulator\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/api-simulators.git\"\n    },\n    {\n        \"siteId\": 295,\n        \"siteName\": \"SC1 Game Management Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/game-management-service.git\"\n    },\n    {\n        \"siteId\": 757,\n        \"siteName\": \"SC1 Game Promotion API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/game-promotion-api.git\"\n    },\n    {\n        \"siteId\": 9,\n        \"siteName\": \"SC1 Game Round Result\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-round-result.git\"\n    },\n    {\n        \"siteId\": 570,\n        \"siteName\": \"SC1 Live Page Gateway\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/livepage-socket-gateway.git\"\n    },\n    {\n        \"siteId\": 569,\n        \"siteName\": \"SC1 Livepage User Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/user-service.git\"\n    },\n    {\n        \"siteId\": 748,\n        \"siteName\": \"SC1 Logs API Postman\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/api-logs-query.git\"\n    },\n    {\n        \"siteId\": 12,\n        \"siteName\": \"SC1 OW API Simulator\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/operator-simulators.git\"\n    },\n    {\n        \"siteId\": 107,\n        \"siteName\": \"SC1 SG Api\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/sg-api.git\"\n    },\n    {\n        \"siteId\": 189,\n        \"siteName\": \"SC1 SG Connect Api\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/sg-connect.git\"\n    },\n    {\n        \"siteId\": 187,\n        \"siteName\": \"SC1 SG Connect Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/sg-connect.git\"\n    },\n    {\n        \"siteId\": 64,\n        \"siteName\": \"SC1 Socket Gateway\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/socket-gateway.git\"\n    },\n    {\n        \"siteId\": 10,\n        \"siteName\": \"SC1 User Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/user-service.git\"\n    },\n    {\n        \"siteId\": 354,\n        \"siteName\": \"Bot Tool\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/chinese-poker-on-rust.git\"\n    },\n    {\n        \"siteId\": 361,\n        \"siteName\": \"Chinese Poker Bot - Blend Mode\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/chinese-poker-on-rust.git\"\n    },\n    {\n        \"siteId\": 300,\n        \"siteName\": \"Chinese Poker Bot - CD\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/chinese-poker-cd-bot.git\"\n    },\n    {\n        \"siteId\": 292,\n        \"siteName\": \"Chinese Poker Bot - Combine Mode\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/bots.git\"\n    },\n    {\n        \"siteId\": 289,\n        \"siteName\": \"Chinese Poker Bot - Filter Mode\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/bots.git\"\n    },\n    {\n        \"siteId\": 282,\n        \"siteName\": \"Chinese Poker Bot - Local Mode\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/bots.git\"\n    },\n    {\n        \"siteId\": 301,\n        \"siteName\": \"Chinese Poker Bot - Pick Mode\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/bots.git\"\n    },\n    {\n        \"siteId\": 297,\n        \"siteName\": \"Chinese Poker Bot - Probability Mode\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/bots/chinese-poker-probable-bot.git\"\n    },\n    {\n        \"siteId\": 290,\n        \"siteName\": \"Chinese Poker Bot - Simple Mode\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/bots/chinese-poker-on-rust.git\"\n    },\n    {\n        \"siteId\": 308,\n        \"siteName\": \"Chinese Poker Bot On Rust\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/chinese-poker-on-rust.git\"\n    },\n    {\n        \"siteId\": 285,\n        \"siteName\": \"Chinese Poker Game Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/bots.git\"\n    },\n    {\n        \"siteId\": 366,\n        \"siteName\": \"Chinese Poker On Rust - Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/chinese-poker-on-rust.git\"\n    },\n    {\n        \"siteId\": 296,\n        \"siteName\": \"Chinese Poker Test Bot UI\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/chinese-poker-ui-test-bot.git\"\n    },\n    {\n        \"siteId\": 554,\n        \"siteName\": \"Game Streaming Client Demo\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/research/live-streaming-service.git\"\n    },\n    {\n        \"siteId\": 552,\n        \"siteName\": \"Game Streaming Service Demo\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/research/game-streaming-service-demo.git\"\n    },\n    {\n        \"siteId\": 798,\n        \"siteName\": \"n8n - Crawl4ai\",\n        \"gitUrl\": \"git@git3.nexdev.net:elias.ngo/n8n-mcp.git\"\n    },\n    {\n        \"siteId\": 774,\n        \"siteName\": \"N8n - MCP - Jira\",\n        \"gitUrl\": \"git@git3.nexdev.net:elias.ngo/n8n-mcp.git\"\n    },\n    {\n        \"siteId\": 777,\n        \"siteName\": \"N8n - MCP - Sentry\",\n        \"gitUrl\": \"git@git3.nexdev.net:elias.ngo/n8n-mcp.git\"\n    },\n    {\n        \"siteId\": 756,\n        \"siteName\": \"n8n - postgres\",\n        \"gitUrl\": \"git@git3.nexdev.net:elias.ngo/postgres-db.git\"\n    },\n    {\n        \"siteId\": 608,\n        \"siteName\": \"Pusoy Bot - Sai\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/bots/pusoy-p1.git\"\n    },\n    {\n        \"siteId\": 377,\n        \"siteName\": \"Pusoy Service  Demo - nodejs\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/research/demo-pusoy-service.git\"\n    },\n    {\n        \"siteId\": 287,\n        \"siteName\": \"Simulator\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/bots.git\"\n    },\n    {\n        \"siteId\": 356,\n        \"siteName\": \"Streaming - Chromium\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/chromium-stream.git\"\n    },\n    {\n        \"siteId\": 357,\n        \"siteName\": \"Streaming - Server\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/stream.git\"\n    },\n    {\n        \"siteId\": 799,\n        \"siteName\": \"Test\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/tlmn.git\"\n    },\n    {\n        \"siteId\": 797,\n        \"siteName\": \"Thirteen Demo\",\n        \"gitUrl\": \"git@git3.nexdev.net:elias.ngo/thirteen-client-demo.git\"\n    },\n    {\n        \"siteId\": 574,\n        \"siteName\": \"SC1 Christmas Crash\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/crash-game-service.git\"\n    },\n    {\n        \"siteId\": 313,\n        \"siteName\": \"SC1 Crash Game Monitor Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/crash-game-monitor-service.git\"\n    },\n    {\n        \"siteId\": 568,\n        \"siteName\": \"SC1 Football Crash\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/crash-game-service.git\"\n    },\n    {\n        \"siteId\": 721,\n        \"siteName\": \"SC1 RocketX Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/two-hands-crash-game-service.git\"\n    },\n    {\n        \"siteId\": 275,\n        \"siteName\": \"SC1 Spaceflight Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/crash-game-service.git\"\n    },\n    {\n        \"siteId\": 502,\n        \"siteName\": \"GN Core Client Demo\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/sedie-client-demo.git\"\n    },\n    {\n        \"siteId\": 283,\n        \"siteName\": \"SC - Bandar Qiu Qiu Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/bandar-qiu-qiu-client.git\"\n    },\n    {\n        \"siteId\": 269,\n        \"siteName\": \"SC - Color Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/color-game-client.git\"\n    },\n    {\n        \"siteId\": 226,\n        \"siteName\": \"SC - Dragon Tiger Fight Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/dragon-tiger-fight-client.git\"\n    },\n    {\n        \"siteId\": 228,\n        \"siteName\": \"SC - Game Client - Template\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-template.git\"\n    },\n    {\n        \"siteId\": 365,\n        \"siteName\": \"SC - Instant Coin Toss Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/coin-toss-instant-client.git\"\n    },\n    {\n        \"siteId\": 276,\n        \"siteName\": \"SC - Instant Color Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/color-game-client.git\"\n    },\n    {\n        \"siteId\": 379,\n        \"siteName\": \"SC - Instant Football Coin Toss Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/football-coin-toss-instant-client.git\"\n    },\n    {\n        \"siteId\": 389,\n        \"siteName\": \"SC - Pusoy Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/pusoy-client2.git\"\n    },\n    {\n        \"siteId\": 861,\n        \"siteName\": \"SC Aladdins Wishes Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/aladdin-client.git\"\n    },\n    {\n        \"siteId\": 831,\n        \"siteName\": \"SC Aztec Princess Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/aztec-warrior-princess.git\"\n    },\n    {\n        \"siteId\": 524,\n        \"siteName\": \"SC Bac100 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 525,\n        \"siteName\": \"SC Bac101 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 374,\n        \"siteName\": \"SC Bac81 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 512,\n        \"siteName\": \"SC Bac82 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 514,\n        \"siteName\": \"SC Bac83 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 494,\n        \"siteName\": \"SC Bac84 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 515,\n        \"siteName\": \"SC Bac85 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 516,\n        \"siteName\": \"SC Bac86 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 517,\n        \"siteName\": \"SC Bac87 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 518,\n        \"siteName\": \"SC Bac88 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 519,\n        \"siteName\": \"SC Bac89 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 520,\n        \"siteName\": \"SC Bac90 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 521,\n        \"siteName\": \"SC Bac91 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 522,\n        \"siteName\": \"SC Bac92 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 523,\n        \"siteName\": \"SC Bac97 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 508,\n        \"siteName\": \"SC Bac98 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/baccarat-84-client.git\"\n    },\n    {\n        \"siteId\": 741,\n        \"siteName\": \"SC Candy Land V3 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/cascading-slot-client.git\"\n    },\n    {\n        \"siteId\": 575,\n        \"siteName\": \"SC Christmas Crash Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/christmas-crash-client.git\"\n    },\n    {\n        \"siteId\": 500,\n        \"siteName\": \"SC Cocos Direct Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-game-client.git\"\n    },\n    {\n        \"siteId\": 661,\n        \"siteName\": \"SC Crypto Mining Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/coin-mining-client.git\"\n    },\n    {\n        \"siteId\": 800,\n        \"siteName\": \"SC Direct Bac81 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-lucky-baccarat-client.git\"\n    },\n    {\n        \"siteId\": 342,\n        \"siteName\": \"SC Football Dice Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/football-dice-client.git\"\n    },\n    {\n        \"siteId\": 848,\n        \"siteName\": \"SC Fruit Sumurai Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/fruit-samurai.git\"\n    },\n    {\n        \"siteId\": 847,\n        \"siteName\": \"SC Happy Farm Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/happy-farm.git\"\n    },\n    {\n        \"siteId\": 877,\n        \"siteName\": \"SC Instant Game V2 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/instant-game-client.git\"\n    },\n    {\n        \"siteId\": 878,\n        \"siteName\": \"SC Instant Lobby Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-game-client.git\"\n    },\n    {\n        \"siteId\": 480,\n        \"siteName\": \"SC Karakrus Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/kara-krus-client.git\"\n    },\n    {\n        \"siteId\": 816,\n        \"siteName\": \"SC Mahjong Wins Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/mahjong-wins-client.git\"\n    },\n    {\n        \"siteId\": 731,\n        \"siteName\": \"SC Marble Football 2 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/marble-football-2-client.git\"\n    },\n    {\n        \"siteId\": 564,\n        \"siteName\": \"SC Marble Football Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/marble-football-client.git\"\n    },\n    {\n        \"siteId\": 666,\n        \"siteName\": \"SC Marble Football Client Stream\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/marble-football-client.git\"\n    },\n    {\n        \"siteId\": 788,\n        \"siteName\": \"SC Poseidons Realm Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/poseidons-realm-client.git\"\n    },\n    {\n        \"siteId\": 725,\n        \"siteName\": \"SC RocketX Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-crash-game-v2-client.git\"\n    },\n    {\n        \"siteId\": 411,\n        \"siteName\": \"SC Sedie3 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/sedie-3-client.git\"\n    },\n    {\n        \"siteId\": 281,\n        \"siteName\": \"SC Spaceflight Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/space-flight-client.git\"\n    },\n    {\n        \"siteId\": 879,\n        \"siteName\": \"SC Summer Heat V3 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/standard-classic-slot.git\"\n    },\n    {\n        \"siteId\": 607,\n        \"siteName\": \"SC Tap Fortune Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/lucky-tree-client.git\"\n    },\n    {\n        \"siteId\": 859,\n        \"siteName\": \"SC Test Slot Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/aladdin-client.git\"\n    },\n    {\n        \"siteId\": 839,\n        \"siteName\": \"SC Wild West Most Wanted Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/wild-west-client.git\"\n    },\n    {\n        \"siteId\": 751,\n        \"siteName\": \"SC Wukongs Revenge Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/cascading-slot-client.git\"\n    },\n    {\n        \"siteId\": 161,\n        \"siteName\": \"SC1  FanTan Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 388,\n        \"siteName\": \"SC1 - SG Oddsfeed POC\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/demo/sg-oddsfeed-poc.git\"\n    },\n    {\n        \"siteId\": 247,\n        \"siteName\": \"SC1 BLACKPINK Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 113,\n        \"siteName\": \"SC1 Blockchain Baccarat Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 229,\n        \"siteName\": \"SC1 Candy Land Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 312,\n        \"siteName\": \"SC1 Chinese Blackjack Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 205,\n        \"siteName\": \"SC1 Client Base - Sedie Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-packages/game-client-base.git\"\n    },\n    {\n        \"siteId\": 662,\n        \"siteName\": \"SC1 Direct Baccarat Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-baccarat-client.git\"\n    },\n    {\n        \"siteId\": 712,\n        \"siteName\": \"SC1 Direct Big Small 55 Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-unbalanced-big-small-client.git\"\n    },\n    {\n        \"siteId\": 699,\n        \"siteName\": \"SC1 Direct Coin Toss Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-coin-toss-client.git\"\n    },\n    {\n        \"siteId\": 668,\n        \"siteName\": \"SC1 Direct Dragon Tiger Fight Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-dragon-tiger-fight-client.git\"\n    },\n    {\n        \"siteId\": 772,\n        \"siteName\": \"SC1 Direct Football Coin Toss Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-football-coin-toss-client.git\"\n    },\n    {\n        \"siteId\": 503,\n        \"siteName\": \"SC1 Direct Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-game-client.git\"\n    },\n    {\n        \"siteId\": 791,\n        \"siteName\": \"SC1 Direct Marble Football 2 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-marble-football-2.git\"\n    },\n    {\n        \"siteId\": 729,\n        \"siteName\": \"SC1 Direct RocketX client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-crash-game-v2-client.git\"\n    },\n    {\n        \"siteId\": 497,\n        \"siteName\": \"SC1 Direct Sedie Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-sedie-client.git\"\n    },\n    {\n        \"siteId\": 783,\n        \"siteName\": \"SC1 Direct Seven Up Down Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-seven-up-down-client.git\"\n    },\n    {\n        \"siteId\": 690,\n        \"siteName\": \"SC1 Direct Sicbo Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-sic-bo-client.git\"\n    },\n    {\n        \"siteId\": 706,\n        \"siteName\": \"SC1 Direct Tap Fortune Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-lucky-tree-client.git\"\n    },\n    {\n        \"siteId\": 811,\n        \"siteName\": \"SC1 Direct Turbo Big Small Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-turbo-big-small-client.git\"\n    },\n    {\n        \"siteId\": 672,\n        \"siteName\": \"SC1 Direct Vip Fish Prawn Crab Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-vip-fish-prawn-crab-client.git\"\n    },\n    {\n        \"siteId\": 555,\n        \"siteName\": \"SC1 Direct Vip Sedie Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-vip-sedie-client.git\"\n    },\n    {\n        \"siteId\": 223,\n        \"siteName\": \"SC1 DJ Club Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 331,\n        \"siteName\": \"SC1 Dragon Ball Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 352,\n        \"siteName\": \"SC1 Football Slot Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 167,\n        \"siteName\": \"SC1 Fortune Cat Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 573,\n        \"siteName\": \"SC1 Four Guardians Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 159,\n        \"siteName\": \"SC1 Fruit Slot Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 3,\n        \"siteName\": \"SC1 Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 59,\n        \"siteName\": \"SC1 Game Client Mobi\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-client-mobi.git\"\n    },\n    {\n        \"siteId\": 670,\n        \"siteName\": \"SC1 Game Client Simulator\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/research/game-service-simulator.git\"\n    },\n    {\n        \"siteId\": 112,\n        \"siteName\": \"SC1 Game Configuration Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-configuration-service.git\"\n    },\n    {\n        \"siteId\": 65,\n        \"siteName\": \"SC1 Game Guides\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-guides.git\"\n    },\n    {\n        \"siteId\": 735,\n        \"siteName\": \"SC1 God Of Fortune Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 184,\n        \"siteName\": \"SC1 Happy Fish Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 565,\n        \"siteName\": \"SC1 Heroes Legend Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 558,\n        \"siteName\": \"SC1 Instant Seven Up Down Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/seven-up-down-instant-client.git\"\n    },\n    {\n        \"siteId\": 485,\n        \"siteName\": \"SC1 Lobby Baccarat Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 202,\n        \"siteName\": \"SC1 Magic Forest Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 154,\n        \"siteName\": \"SC1 Mega Keno Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 142,\n        \"siteName\": \"SC1 Mega Keno Mobi\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-client-mobi.git\"\n    },\n    {\n        \"siteId\": 375,\n        \"siteName\": \"SC1 Mini Coin Toss Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 551,\n        \"siteName\": \"SC1 Mini Football Coin Toss Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 137,\n        \"siteName\": \"SC1 Mini Sedie Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 556,\n        \"siteName\": \"SC1 Mini Seven Up Down Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 241,\n        \"siteName\": \"SC1 Mission Impossible Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 769,\n        \"siteName\": \"SC1 Ne Zhas Rebellion Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 562,\n        \"siteName\": \"SC1 Night Club Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 766,\n        \"siteName\": \"SC1 One Day In Paradise Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 303,\n        \"siteName\": \"SC1 One Piece Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 880,\n        \"siteName\": \"SC1 Original Games Client Demo\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/original-games.git\"\n    },\n    {\n        \"siteId\": 253,\n        \"siteName\": \"SC1 Pontoon Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 765,\n        \"siteName\": \"SC1 Ramses Lost Tomb Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 822,\n        \"siteName\": \"SC1 Seal Hot League Wall Client Demo\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/sedie-client-demo.git\"\n    },\n    {\n        \"siteId\": 432,\n        \"siteName\": \"SC1 Seal Live Page Client Demo\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/sedie-client-demo.git\"\n    },\n    {\n        \"siteId\": 371,\n        \"siteName\": \"SC1 Shared Client Resources\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-shared-resources.git\"\n    },\n    {\n        \"siteId\": 717,\n        \"siteName\": \"SC1 Standalone Live Page Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/standalone-saba-games-live-page.git\"\n    },\n    {\n        \"siteId\": 784,\n        \"siteName\": \"SC1 Summer Heat Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 753,\n        \"siteName\": \"SC1 Temple Of Caishen Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 272,\n        \"siteName\": \"SC1 Transformers Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 108,\n        \"siteName\": \"SC1 Treasure Island Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 121,\n        \"siteName\": \"SC1 Unbalanced Big Small Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 114,\n        \"siteName\": \"SC1 Way To Goal Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 170,\n        \"siteName\": \"SC1 Win Three Cards Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-main.git\"\n    },\n    {\n        \"siteId\": 185,\n        \"siteName\": \"SC1-Slot-Collection-Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-resources/slot-collection.git\"\n    },\n    {\n        \"siteId\": 384,\n        \"siteName\": \"L1 Pusoy Serivce\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/pusoy-service.git\"\n    },\n    {\n        \"siteId\": 823,\n        \"siteName\": \"SC1 - Game RNG Soccer Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/rng-soccer-service.git\"\n    },\n    {\n        \"siteId\": 553,\n        \"siteName\": \"SC1 7 Up 7 Down Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/7-up-down-service.git\"\n    },\n    {\n        \"siteId\": 364,\n        \"siteName\": \"SC1 BaccaratX Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/baccarat-x-service.git\"\n    },\n    {\n        \"siteId\": 286,\n        \"siteName\": \"SC1 Bandar Qiu Qiu Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/bandar-qiu-qiu-service.git\"\n    },\n    {\n        \"siteId\": 81,\n        \"siteName\": \"SC1 Bitcoin Master Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/bitcoin-master-service.git\"\n    },\n    {\n        \"siteId\": 41,\n        \"siteName\": \"SC1 Blackjack Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/blackjack-service.git\"\n    },\n    {\n        \"siteId\": 204,\n        \"siteName\": \"SC1 Cascading Slot Game Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 314,\n        \"siteName\": \"SC1 Chinese Blackjack Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/chinese-blackjack-service.git\"\n    },\n    {\n        \"siteId\": 636,\n        \"siteName\": \"SC1 Coin Mining Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/turn-based-crash-game-service.git\"\n    },\n    {\n        \"siteId\": 363,\n        \"siteName\": \"SC1 Coin Toss Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/coin-toss-service.git\"\n    },\n    {\n        \"siteId\": 265,\n        \"siteName\": \"SC1 Color Game Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/color-game-service.git\"\n    },\n    {\n        \"siteId\": 82,\n        \"siteName\": \"SC1 Crypto Data Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/crypto-data-service.git\"\n    },\n    {\n        \"siteId\": 37,\n        \"siteName\": \"SC1 Fan Tan Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/fantan-service.git\"\n    },\n    {\n        \"siteId\": 378,\n        \"siteName\": \"SC1 Football Coin Toss Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/football-coin-toss-service.git\"\n    },\n    {\n        \"siteId\": 341,\n        \"siteName\": \"SC1 Football Dice Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/football-dice-service.git\"\n    },\n    {\n        \"siteId\": 24,\n        \"siteName\": \"SC1 Game Baccarat Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/baccarat-service.git\"\n    },\n    {\n        \"siteId\": 29,\n        \"siteName\": \"SC1 Game Big Small Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/big-small-service.git\"\n    },\n    {\n        \"siteId\": 105,\n        \"siteName\": \"SC1 Game Blockchain Baccarat Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/blockchain-baccarat-service.git\"\n    },\n    {\n        \"siteId\": 83,\n        \"siteName\": \"SC1 Game Casino Holdem Poker Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/casino-holdem-poker.git\"\n    },\n    {\n        \"siteId\": 227,\n        \"siteName\": \"SC1 Game Dragon Tiger Fight Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/dragon-tiger-fight-service.git\"\n    },\n    {\n        \"siteId\": 32,\n        \"siteName\": \"SC1 Game Dragon Tiger Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/dragon-tiger-service.git\"\n    },\n    {\n        \"siteId\": 34,\n        \"siteName\": \"SC1 Game Fish Prawn Crab Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/fish-prawn-crab-service.git\"\n    },\n    {\n        \"siteId\": 87,\n        \"siteName\": \"SC1 Game High Low Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/hilo-service.git\"\n    },\n    {\n        \"siteId\": 75,\n        \"siteName\": \"SC1 Game Keno Match Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/keno-match-service.git\"\n    },\n    {\n        \"siteId\": 78,\n        \"siteName\": \"SC1 Game Keno Power Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/keno-power-service.git\"\n    },\n    {\n        \"siteId\": 36,\n        \"siteName\": \"SC1 Game Keno Pro Max Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/keno-pro-max-service.git\"\n    },\n    {\n        \"siteId\": 17,\n        \"siteName\": \"SC1 Game Lottery Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/lottery-service.git\"\n    },\n    {\n        \"siteId\": 74,\n        \"siteName\": \"SC1 Game Mini Keno Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/mini-keno.git\"\n    },\n    {\n        \"siteId\": 833,\n        \"siteName\": \"SC1 Game Mini Roulette Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/mini-roulette-service.git\"\n    },\n    {\n        \"siteId\": 38,\n        \"siteName\": \"SC1 Game Roulette Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/roulette-service.git\"\n    },\n    {\n        \"siteId\": 13,\n        \"siteName\": \"SC1 Game Sedie Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/sedie-service.git\"\n    },\n    {\n        \"siteId\": 26,\n        \"siteName\": \"SC1 Game Sedie War Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/vip-sedie-war-service.git\"\n    },\n    {\n        \"siteId\": 405,\n        \"siteName\": \"SC1 Game Sedie3 Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/sedie3-service.git\"\n    },\n    {\n        \"siteId\": 27,\n        \"siteName\": \"SC1 Game Sicbo Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/sicbo-service.git\"\n    },\n    {\n        \"siteId\": 90,\n        \"siteName\": \"SC1 Game Texas Holdem Poker Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/texas-holdem-poker.git\"\n    },\n    {\n        \"siteId\": 39,\n        \"siteName\": \"SC1 Game Turbo Big Small Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/turbo-big-small-service.git\"\n    },\n    {\n        \"siteId\": 40,\n        \"siteName\": \"SC1 Game Turbo Odd Even Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/turbo-odd-even-service.git\"\n    },\n    {\n        \"siteId\": 22,\n        \"siteName\": \"SC1 Game Vip Sedie Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/vip-sedie-service.git\"\n    },\n    {\n        \"siteId\": 477,\n        \"siteName\": \"SC1 Kara Krus Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/kara-krus-service.git\"\n    },\n    {\n        \"siteId\": 606,\n        \"siteName\": \"SC1 Marble Football 2 Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/marble-football-2-service.git\"\n    },\n    {\n        \"siteId\": 559,\n        \"siteName\": \"SC1 Marble Football Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/marble-football-service.git\"\n    },\n    {\n        \"siteId\": 567,\n        \"siteName\": \"SC1 Marble Football Videos\",\n        \"gitUrl\": \"git@git21.lumigame.com:l1/marble-football-videos.git\"\n    },\n    {\n        \"siteId\": 643,\n        \"siteName\": \"SC1 Marble Pinball\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/marble-pinball-service.git\"\n    },\n    {\n        \"siteId\": 703,\n        \"siteName\": \"SC1 Marble Pinball Videos\",\n        \"gitUrl\": \"git@git21.lumigame.com:elias.ngo/example-videos.git\"\n    },\n    {\n        \"siteId\": 95,\n        \"siteName\": \"SC1 Notification Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/notification-service.git\"\n    },\n    {\n        \"siteId\": 271,\n        \"siteName\": \"SC1 Pontoon Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/pontoon-service.git\"\n    },\n    {\n        \"siteId\": 131,\n        \"siteName\": \"SC1 Sedie Multiplay Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/sedie-multiplay.git\"\n    },\n    {\n        \"siteId\": 830,\n        \"siteName\": \"SC1 Solo Blackjack Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/solo-blackjack-service.git\"\n    },\n    {\n        \"siteId\": 42,\n        \"siteName\": \"SC1 Special Sedie Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/special-sedie-service.git\"\n    },\n    {\n        \"siteId\": 728,\n        \"siteName\": \"SC1 Spinner Soccer Videos 2\",\n        \"gitUrl\": \"git@git21.lumigame.com:l1/spinner-soccer-2-videos.git\"\n    },\n    {\n        \"siteId\": 66,\n        \"siteName\": \"SC1 Three Cards Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/three-cards-service.git\"\n    },\n    {\n        \"siteId\": 118,\n        \"siteName\": \"SC1 Unbalanced Big Small Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/unbalanced-bigsmall-service.git\"\n    },\n    {\n        \"siteId\": 30,\n        \"siteName\": \"SC1 VIP Baccarat Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/vip-baccarat-service.git\"\n    },\n    {\n        \"siteId\": 25,\n        \"siteName\": \"SC1 VIP Fish Prawn Crab Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/vip-fish-prawn-crab-service.git\"\n    },\n    {\n        \"siteId\": 160,\n        \"siteName\": \"SC1 Win Three Cards Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/win-three-cards-service.git\"\n    },\n    {\n        \"siteId\": 110,\n        \"siteName\": \"SC1 - Old Game Server\",\n        \"gitUrl\": \"git@git3.nexdev.net:20m/server.git\"\n    },\n    {\n        \"siteId\": 190,\n        \"siteName\": \"SC1 App Download Site Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/info-site.git\"\n    },\n    {\n        \"siteId\": 188,\n        \"siteName\": \"SC1 Info Site Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/info-site.git\"\n    },\n    {\n        \"siteId\": 201,\n        \"siteName\": \"SC1 VivaDzo Policy\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-app/vivadzo-policy.git\"\n    },\n    {\n        \"siteId\": 192,\n        \"siteName\": \"TL AI\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-bots/tl-ai.git\"\n    },\n    {\n        \"siteId\": 193,\n        \"siteName\": \"TL AI Server\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-bots/tl-ai-server.git\"\n    },\n    {\n        \"siteId\": 860,\n        \"siteName\": \"SC1 Aladdins Wishes  Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 836,\n        \"siteName\": \"SC1 Aztec Princess Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 246,\n        \"siteName\": \"SC1 Black Pink Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 206,\n        \"siteName\": \"SC1 Candy Land Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 214,\n        \"siteName\": \"SC1 DJ Club Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 329,\n        \"siteName\": \"SC1 Dragon Ball Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 350,\n        \"siteName\": \"SC1 Football Slot Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/football-slot-service.git\"\n    },\n    {\n        \"siteId\": 163,\n        \"siteName\": \"SC1 Fortune Cat Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 846,\n        \"siteName\": \"SC1 Fruit Samurai Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 23,\n        \"siteName\": \"SC1 Game Four Guardians Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 138,\n        \"siteName\": \"SC1 Game Fruit Slot Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/fruit-slot-service.git\"\n    },\n    {\n        \"siteId\": 73,\n        \"siteName\": \"SC1 Game Heroes Slot Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 94,\n        \"siteName\": \"SC1 Game Night Club Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 111,\n        \"siteName\": \"SC1 Game Way To Goal Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 733,\n        \"siteName\": \"SC1 God Of Fortune Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 845,\n        \"siteName\": \"SC1 Happy Farm Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 176,\n        \"siteName\": \"SC1 Happy Fish Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 200,\n        \"siteName\": \"SC1 Magic Forest Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 812,\n        \"siteName\": \"SC1 Mahjong Wins Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 240,\n        \"siteName\": \"SC1 Mission Impossible Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 768,\n        \"siteName\": \"SC1 Ne Zhas Rebellion Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 767,\n        \"siteName\": \"SC1 One Day In Paradise Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 302,\n        \"siteName\": \"SC1 One Piece Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 787,\n        \"siteName\": \"SC1 Poseidons Realm Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 764,\n        \"siteName\": \"SC1 Ramses Lost Tomb Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 224,\n        \"siteName\": \"SC1 Slot Auto Bot\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/ui-automation-tests/autobot.git\"\n    },\n    {\n        \"siteId\": 785,\n        \"siteName\": \"SC1 Summer Heat Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 600,\n        \"siteName\": \"SC1 Tap Fortune Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/instant-win-game-service.git\"\n    },\n    {\n        \"siteId\": 752,\n        \"siteName\": \"SC1 Temple Of Caishen Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 263,\n        \"siteName\": \"SC1 Transformers Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/slot-game-service.git\"\n    },\n    {\n        \"siteId\": 97,\n        \"siteName\": \"SC1 Treasure Island Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/treasure-island-service.git\"\n    },\n    {\n        \"siteId\": 723,\n        \"siteName\": \"SC1 Treasure Island Service-New\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 825,\n        \"siteName\": \"SC1 Wild West Most Wanted Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    {\n        \"siteId\": 750,\n        \"siteName\": \"SC1 Wukongs Revenge Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/cascading-slot-game-service.git\"\n    },\n    \n]\n\nconst outputArray = sites.map(item => {\n  const sshUrl = item.gitUrl;\n  const httpsUrl = sshUrl\n    .replace(/^git@git3.nexdev.net:/, 'https://git3.nexdev.net/')       \n    .replace(/\\.git$/, '');             \n\n  const path = httpsUrl.replace(/^https:\\/\\/git3\\.nexdev\\.net\\//, '');\n  return { siteId: item.siteId, siteName: item.siteName , gitUrl: httpsUrl, path, pathEncode: encodeURIComponent(path) };\n});\n\n// Return as n8n items\nreturn outputArray.map(i => ({ json: i }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        260,
+        480
+      ],
+      "id": "1b4b147a-afc2-4b91-9dbc-f7cb526bf676",
+      "name": "Get All Sites - SG"
+    },
+    {
+      "parameters": {
+        "jsCode": "let sites = [\n    {\n        \"siteId\": 340,\n        \"siteName\": \"GN Admin  Monitoring Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/game-admin-monitoring.git\"\n    },\n    {\n        \"siteId\": 325,\n        \"siteName\": \"GN Admin API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-admin.git\"\n    },\n    {\n        \"siteId\": 324,\n        \"siteName\": \"GN Admin Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-admin.git\"\n    },\n    {\n        \"siteId\": 334,\n        \"siteName\": \"GN Auth API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/api.git\"\n    },\n    {\n        \"siteId\": 327,\n        \"siteName\": \"GN Game API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/api.git\"\n    },\n    {\n        \"siteId\": 320,\n        \"siteName\": \"GN Game Lobby Simulator\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/api-simulators.git\"\n    },\n    {\n        \"siteId\": 322,\n        \"siteName\": \"GN Game Management Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/game-management-service.git\"\n    },\n    {\n        \"siteId\": 328,\n        \"siteName\": \"GN Game Round Result\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-round-result.git\"\n    },\n    {\n        \"siteId\": 335,\n        \"siteName\": \"GN OW API Simulator\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/operator-simulators.git\"\n    },\n    {\n        \"siteId\": 326,\n        \"siteName\": \"GN SG Api\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/sg-api.git\"\n    },\n    {\n        \"siteId\": 321,\n        \"siteName\": \"GN User Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/user-service.git\"\n    },\n    {\n        \"siteId\": 504,\n        \"siteName\": \"GN Core Client Demo Multiple Cluster\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/sedie-client-demo.git\"\n    },\n    {\n        \"siteId\": 333,\n        \"siteName\": \"GN Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/number-games/gn-game-client.git\"\n    },\n    {\n        \"siteId\": 727,\n        \"siteName\": \"GN Game Configuration Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-configuration-service.git\"\n    },\n    {\n        \"siteId\": 323,\n        \"siteName\": \"GN Game Guides\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-guides.git\"\n    },\n    {\n        \"siteId\": 529,\n        \"siteName\": \"GN Instant Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/number-games/gn-instant-game-client.git\"\n    },\n    {\n        \"siteId\": 337,\n        \"siteName\": \"GN Bac Ball 1 Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/baccarat-balls-service.git\"\n    },\n    {\n        \"siteId\": 347,\n        \"siteName\": \"GN Bac Ball 2 Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/baccarat-balls-2-service.git\"\n    },\n    {\n        \"siteId\": 609,\n        \"siteName\": \"GN Baccarat Number Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/saba-xd-services/baccarat-number-service.git\"\n    },\n    {\n        \"siteId\": 348,\n        \"siteName\": \"GN Lucky Next 1\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/next-ball-1-service.git\"\n    },\n    {\n        \"siteId\": 349,\n        \"siteName\": \"GN Lucky Next 2\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/next-ball-2-service.git\"\n    },\n    {\n        \"siteId\": 614,\n        \"siteName\": \"GN Lucky Next Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/saba-xd-services/lucky-next-service.git\"\n    },\n    {\n        \"siteId\": 367,\n        \"siteName\": \"GN Lucky Three\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/lucky-three-service.git\"\n    },\n    {\n        \"siteId\": 336,\n        \"siteName\": \"GN Notification Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/notification-service.git\"\n    },\n    {\n        \"siteId\": 355,\n        \"siteName\": \"GN Se Ball 1\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/se-ball-1-service.git\"\n    },\n    {\n        \"siteId\": 617,\n        \"siteName\": \"GN Se Die Number Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/saba-xd-services/sedie-number-service.git\"\n    },\n    {\n        \"siteId\": 373,\n        \"siteName\": \"GN Sic Ball\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/sic-ball-service.git\"\n    },\n    {\n        \"siteId\": 623,\n        \"siteName\": \"GN Sic Bo Number Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/saba-xd-services/sic-bo-number-service.git\"\n    },\n    {\n        \"siteId\": 343,\n        \"siteName\": \"GN Socket Gateway\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/socket-gateway.git\"\n    },\n    {\n        \"siteId\": 610,\n        \"siteName\": \"GN Speed Baccarat Number Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/saba-xd-services/baccarat-number-service.git\"\n    },\n    {\n        \"siteId\": 615,\n        \"siteName\": \"GN Speed Lucky Next Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/saba-xd-services/lucky-next-service.git\"\n    },\n    {\n        \"siteId\": 618,\n        \"siteName\": \"GN Speed Se Die Number Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/saba-xd-services/sedie-number-service.git\"\n    },\n    {\n        \"siteId\": 624,\n        \"siteName\": \"GN Speed Sic Bo Number Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/saba-xd-services/sic-bo-number-service.git\"\n    },\n    {\n        \"siteId\": 621,\n        \"siteName\": \"GN Speed Triple Luck Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/saba-xd-services/triple-luck-service.git\"\n    },\n    {\n        \"siteId\": 620,\n        \"siteName\": \"GN Triple Luck Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/saba-xd-services/triple-luck-service.git\"\n    },\n    {\n        \"siteId\": 611,\n        \"siteName\": \"GN Vip Baccarat Number Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/saba-xd-services/baccarat-number-service.git\"\n    },\n    {\n        \"siteId\": 616,\n        \"siteName\": \"GN VIP Lucky Next Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/saba-xd-services/lucky-next-service.git\"\n    },\n    {\n        \"siteId\": 619,\n        \"siteName\": \"GN VIP Se Die Number Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/saba-xd-services/sedie-number-service.git\"\n    },\n    {\n        \"siteId\": 625,\n        \"siteName\": \"GN VIP Sic Bo Number Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/saba-xd-services/sic-bo-number-service.git\"\n    },\n    {\n        \"siteId\": 622,\n        \"siteName\": \"GN VIP Triple Luck Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/saba-xd-services/triple-luck-service.git\"\n    },\n    {\n        \"siteId\": 854,\n        \"siteName\": \"HD - Exchange Rate Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:pentagon/exchange-rate-service.git\"\n    },\n    {\n        \"siteId\": 795,\n        \"siteName\": \"HD 7 Up 7 Down Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/7-up-down-service.git\"\n    },\n    {\n        \"siteId\": 687,\n        \"siteName\": \"HD Admin  Monitoring Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/admin-sites/game-admin-monitoring.git\"\n    },\n    {\n        \"siteId\": 628,\n        \"siteName\": \"HD Admin API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-admin.git\"\n    },\n    {\n        \"siteId\": 629,\n        \"siteName\": \"HD Admin Site\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-admin.git\"\n    },\n    {\n        \"siteId\": 630,\n        \"siteName\": \"HD Auth API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/api.git\"\n    },\n    {\n        \"siteId\": 639,\n        \"siteName\": \"HD Bac Ball 1 Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/baccarat-balls-service.git\"\n    },\n    {\n        \"siteId\": 657,\n        \"siteName\": \"HD Bac Ball 2 Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/baccarat-balls-2-service.git\"\n    },\n    {\n        \"siteId\": 684,\n        \"siteName\": \"HD BaccaratX Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/baccarat-x-service.git\"\n    },\n    {\n        \"siteId\": 681,\n        \"siteName\": \"HD Coin Toss Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/coin-toss-service.git\"\n    },\n    {\n        \"siteId\": 749,\n        \"siteName\": \"HD Football Coin Toss Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/football-coin-toss-service.git\"\n    },\n    {\n        \"siteId\": 631,\n        \"siteName\": \"HD Game API\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/api.git\"\n    },\n    {\n        \"siteId\": 664,\n        \"siteName\": \"HD Game Baccarat Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/baccarat-service.git\"\n    },\n    {\n        \"siteId\": 677,\n        \"siteName\": \"HD Game Dragon Tiger Fight Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/dragon-tiger-fight-service.git\"\n    },\n    {\n        \"siteId\": 635,\n        \"siteName\": \"HD Game Lobby Simulator\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/api-simulators.git\"\n    },\n    {\n        \"siteId\": 638,\n        \"siteName\": \"HD Game Management Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/game-management-service.git\"\n    },\n    {\n        \"siteId\": 806,\n        \"siteName\": \"HD Game Marble Football 2 Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/marble-football-2-service.git\"\n    },\n    {\n        \"siteId\": 840,\n        \"siteName\": \"HD Game RocketX Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/two-hands-crash-game-service.git\"\n    },\n    {\n        \"siteId\": 641,\n        \"siteName\": \"HD Game Round Result\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-round-result.git\"\n    },\n    {\n        \"siteId\": 655,\n        \"siteName\": \"HD Game Sedie Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/sedie-service.git\"\n    },\n    {\n        \"siteId\": 715,\n        \"siteName\": \"HD Game Turbo Big Small Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/turbo-big-small-service.git\"\n    },\n    {\n        \"siteId\": 675,\n        \"siteName\": \"HD Game Vip Fish Prawn Crab Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/vip-fish-prawn-crab-service.git\"\n    },\n    {\n        \"siteId\": 669,\n        \"siteName\": \"HD Game Vip Sedie Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/vip-sedie-service.git\"\n    },\n    {\n        \"siteId\": 648,\n        \"siteName\": \"HD Lucky Next 1 Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/next-ball-1-service.git\"\n    },\n    {\n        \"siteId\": 656,\n        \"siteName\": \"HD Lucky Next 2 Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/next-ball-2-service.git\"\n    },\n    {\n        \"siteId\": 649,\n        \"siteName\": \"HD Lucky Three  Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/lucky-three-service.git\"\n    },\n    {\n        \"siteId\": 637,\n        \"siteName\": \"HD Notification Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/notification-service.git\"\n    },\n    {\n        \"siteId\": 634,\n        \"siteName\": \"HD OW API Simulator\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/backend-services/operator-simulators.git\"\n    },\n    {\n        \"siteId\": 680,\n        \"siteName\": \"HD Pontoon Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/pontoon-service.git\"\n    },\n    {\n        \"siteId\": 645,\n        \"siteName\": \"HD Se Ball  Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/se-ball-1-service.git\"\n    },\n    {\n        \"siteId\": 633,\n        \"siteName\": \"HD SG Api\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/sg-api.git\"\n    },\n    {\n        \"siteId\": 647,\n        \"siteName\": \"HD Sic Ball  Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/sic-ball-service.git\"\n    },\n    {\n        \"siteId\": 679,\n        \"siteName\": \"HD Sicbo Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/sicbo-service.git\"\n    },\n    {\n        \"siteId\": 650,\n        \"siteName\": \"HD Socket Gateway\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/socket-gateway.git\"\n    },\n    {\n        \"siteId\": 683,\n        \"siteName\": \"HD Tap Fortune Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/instant-win-game-service.git\"\n    },\n    {\n        \"siteId\": 682,\n        \"siteName\": \"HD Three Cards Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/three-cards-service.git\"\n    },\n    {\n        \"siteId\": 842,\n        \"siteName\": \"HD Top Win Stats Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/top-win-stats-service.git\"\n    },\n    {\n        \"siteId\": 704,\n        \"siteName\": \"HD Unbalanced Big Small Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-services/unbalanced-bigsmall-service.git\"\n    },\n    {\n        \"siteId\": 632,\n        \"siteName\": \"HD User Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/user-service.git\"\n    },\n    {\n        \"siteId\": 665,\n        \"siteName\": \"HD Baccarat Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-baccarat-client.git\"\n    },\n    {\n        \"siteId\": 658,\n        \"siteName\": \"HD Game Client Mobi\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-client-mobi.git\"\n    },\n    {\n        \"siteId\": 694,\n        \"siteName\": \"HD Game Client Simulator\",\n        \"gitUrl\": \"git@git3.nexdev.net:rd/research/game-service-simulator.git\"\n    },\n    {\n        \"siteId\": 685,\n        \"siteName\": \"HD Game Configuration Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-configuration-service.git\"\n    },\n    {\n        \"siteId\": 642,\n        \"siteName\": \"HD Game Guides\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-guides.git\"\n    },\n    {\n        \"siteId\": 653,\n        \"siteName\": \"HD Lobby Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-game-client.git\"\n    },\n    {\n        \"siteId\": 700,\n        \"siteName\": \"HD Portrait Coin Toss Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-coin-toss-client.git\"\n    },\n    {\n        \"siteId\": 678,\n        \"siteName\": \"HD Portrait Dragon Tiger Fight Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-dragon-tiger-fight-client.git\"\n    },\n    {\n        \"siteId\": 763,\n        \"siteName\": \"HD Portrait Football Coin Toss Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-football-coin-toss-client.git\"\n    },\n    {\n        \"siteId\": 793,\n        \"siteName\": \"HD Portrait Marble Football 2 Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-marble-football-2.git\"\n    },\n    {\n        \"siteId\": 841,\n        \"siteName\": \"HD Portrait RocketX Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-crash-game-v2-client.git\"\n    },\n    {\n        \"siteId\": 652,\n        \"siteName\": \"HD Portrait Sedie Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-sedie-client.git\"\n    },\n    {\n        \"siteId\": 882,\n        \"siteName\": \"HD Portrait Seven Up Down Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-seven-up-down-client.git\"\n    },\n    {\n        \"siteId\": 688,\n        \"siteName\": \"HD Portrait Sic Bo Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-sic-bo-client.git\"\n    },\n    {\n        \"siteId\": 693,\n        \"siteName\": \"HD Portrait Tap Fortune Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-lucky-tree-client.git\"\n    },\n    {\n        \"siteId\": 716,\n        \"siteName\": \"HD Portrait Turbo BigSmall Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-turbo-big-small-client.git\"\n    },\n    {\n        \"siteId\": 705,\n        \"siteName\": \"HD Portrait Unbalanced Big Small Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/portrait-unbalanced-big-small-client.git\"\n    },\n    {\n        \"siteId\": 674,\n        \"siteName\": \"HD Portrait Vip Fish Prawn Crab Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-vip-fish-prawn-crab-client.git\"\n    },\n    {\n        \"siteId\": 667,\n        \"siteName\": \"HD Portrait Vip Sedie Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/direct-vip-sedie-client.git\"\n    },\n    {\n        \"siteId\": 654,\n        \"siteName\": \"HD Shared Client Resources\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/game-client-shared-resources.git\"\n    },\n    {\n        \"siteId\": 640,\n        \"siteName\": \"HD Xd Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/game-clients/number-games/gn-game-client.git\"\n    },\n    \n    {\n        \"siteId\": 597,\n        \"siteName\": \"SK Game Client\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/saba-keno/sk-game-client.git\"\n    },\n    {\n        \"siteId\": 590,\n        \"siteName\": \"SK Game Guides\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/saba-keno/sk-game-guides.git\"\n    },\n    {\n        \"siteId\": 593,\n        \"siteName\": \"SK Game Keno Power Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/saba-keno/sk-keno-power-service.git\"\n    },\n    {\n        \"siteId\": 592,\n        \"siteName\": \"SK Game Keno Soccer Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/saba-keno/sk-keno-soccer-service.git\"\n    },\n    {\n        \"siteId\": 591,\n        \"siteName\": \"SK Game Mini Keno Service\",\n        \"gitUrl\": \"git@git3.nexdev.net:l1/saba-keno/sk-mini-keno-service.git\"\n    },\n   \n   \n   \n  \n]\n\nconst outputArray = sites.map(item => {\n  const sshUrl = item.gitUrl;\n  const httpsUrl = sshUrl\n    .replace(/^git@git3.nexdev.net:/, 'https://git3.nexdev.net/')       \n    .replace(/\\.git$/, '');             \n\n  const path = httpsUrl.replace(/^https:\\/\\/git3\\.nexdev\\.net\\//, '');\n  return { siteId: item.siteId, siteName: item.siteName , gitUrl: httpsUrl, path, pathEncode: encodeURIComponent(path) };\n});\n\n// Return as n8n items\nreturn outputArray.map(i => ({ json: i }));"
+      },
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [
+        440,
+        380
+      ],
+      "id": "1f5d75c5-e80e-43ed-9ebf-c0b315559df4",
+      "name": "Get All Sites - GN"
+    },
+    {
+      "parameters": {
+        "functionCode": "const data = this.getWorkflowStaticData('global');\nreturn [{ json: data.accumulator.results || {} }];"
+      },
+      "id": "5133f229-c20d-41d4-b017-278f995a5407",
+      "name": "Get Final Results",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        760,
+        540
+      ]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "options": {
+            "caseSensitive": true,
+            "leftValue": "",
+            "typeValidation": "strict",
+            "version": 2
+          },
+          "conditions": [
+            {
+              "id": "ce9b92e6-7ae8-4d6d-97d8-ad93e769f89c",
+              "leftValue": "={{ $json.statusCode }}",
+              "rightValue": 200,
+              "operator": {
+                "type": "number",
+                "operation": "equals"
+              }
+            }
+          ],
+          "combinator": "and"
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 2.2,
+      "position": [
+        2440,
+        980
+      ],
+      "id": "ef12a0e7-5d10-43fd-b364-61058d49a34e",
+      "name": "Check Compare Commit Exists?"
+    },
+    {
+      "parameters": {
+        "functionCode": "const data = this.getWorkflowStaticData('global');\n\n// Khởi tạo nếu chưa có\nif (!data.accumulator) {\n  data.accumulator = { results: [] };\n}\n\n// Append data\nconst result = {\n  site: $('Get Sites Detail').item.json,\n  status: 'Commits not exist'\n};\n\ndata.accumulator.results.push(result);\n\nreturn result;"
+      },
+      "id": "f7fd430c-4b6c-4c8e-a327-898a2f1d6679",
+      "name": "Append Results4",
+      "type": "n8n-nodes-base.function",
+      "typeVersion": 1,
+      "position": [
+        2540,
+        1240
+      ]
+    },
+    {
+      "parameters": {
+        "url": "=https://git3.nexdev.net/api/v4/projects/{{$('Loop Over Projects').first().json.pathEncode;}}/repository/compare?from={{$json.KLProdCommitHash}}&to={{ $json.ProdCommitHash }}\n",
+        "authentication": "predefinedCredentialType",
+        "nodeCredentialType": "gitlabApi",
+        "options": {
+          "response": {
+            "response": {
+              "fullResponse": true,
+              "neverError": true
+            }
+          }
+        }
+      },
+      "type": "n8n-nodes-base.httpRequest",
+      "typeVersion": 4.2,
+      "position": [
+        2260,
+        980
+      ],
+      "id": "e481af5f-9f87-4fa7-a67f-05ada8e27865",
+      "name": "Compare Commits Hash",
+      "alwaysOutputData": true,
+      "credentials": {
+        "gitlabApi": {
+          "id": "aiZQRO4PLxSPKrST",
+          "name": "GitLab account 5"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "Trigger": {
+      "main": [
+        [
+          {
+            "node": "Append Results3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Projects": {
+      "main": [
+        [
+          {
+            "node": "Get Final Results",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Wait 2 seconds3",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get All Sites": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Projects",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Search SiteId By Git Repo": {
+      "main": [
+        [
+          {
+            "node": "Has Active Site",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Has Active Site": {
+      "main": [
+        [
+          {
+            "node": "Split Out",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Projects",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Split Out": {
+      "main": [
+        [
+          {
+            "node": "FilterAndFormat",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "StartupConfigs": {
+      "main": [
+        [
+          {
+            "node": "Get All Sites",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "FilterAndFormat": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Loop Over Items": {
+      "main": [
+        [
+          {
+            "node": "Wait 2 seconds2",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Get Sites Detail",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 2 seconds2": {
+      "main": [
+        [
+          {
+            "node": "Get Current Object",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Latest Deploy PROD": {
+      "main": [
+        [
+          {
+            "node": "Check Has Deploy PROD yet?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 2 seconds": {
+      "main": [
+        [
+          {
+            "node": "Get Params KLPROD Location",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Params PROD Location": {
+      "main": [
+        [
+          {
+            "node": "Get Latest Deploy PROD",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Params KLPROD Location": {
+      "main": [
+        [
+          {
+            "node": "Get Latest Deploy KLPROD",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Latest Deploy KLPROD": {
+      "main": [
+        [
+          {
+            "node": "Check Has Deploy KLPROD yet?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Commit Hash": {
+      "main": [
+        [
+          {
+            "node": "Compare Commits Hash",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compare Rebase Commits": {
+      "main": [
+        [
+          {
+            "node": "Append Results",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Has Deploy PROD yet?": {
+      "main": [
+        [
+          {
+            "node": "Wait 2 seconds",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append Results2",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Has Deploy KLPROD yet?": {
+      "main": [
+        [
+          {
+            "node": "Get Commit Hash",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append Results1",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append Results1": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append Results": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Sites": {
+      "main": [
+        [
+          {
+            "node": "Search SiteId By Git Repo",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Wait 2 seconds3": {
+      "main": [
+        [
+          {
+            "node": "Get Sites",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Sites Detail": {
+      "main": [
+        [
+          {
+            "node": "Check Correct Current Site",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append Results2": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Correct Current Site": {
+      "main": [
+        [
+          {
+            "node": "Get Params PROD Location",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append Results3": {
+      "main": [
+        [
+          {
+            "node": "StartupConfigs",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Get Current Object": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Projects",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Check Compare Commit Exists?": {
+      "main": [
+        [
+          {
+            "node": "Compare Rebase Commits",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Append Results4",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Append Results4": {
+      "main": [
+        [
+          {
+            "node": "Loop Over Items",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Compare Commits Hash": {
+      "main": [
+        [
+          {
+            "node": "Check Compare Commit Exists?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1"
+  },
+  "versionId": "79d0c0d0-1a12-4a5e-ab00-e270de3d0883",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "98bfed1c0f22fa9e07d0e38dc58da94b0281d63095bd4ba14894d42a90a063e3"
+  },
+  "id": "OfTAwPCbKrCaeX3g",
+  "tags": []
+}
